@@ -15,29 +15,45 @@ class Game:
     HUMAN = 2
     AI = 3
 
+
     def __init__(self, recommend = True):
         self.initialize_game()
         self.recommend = recommend
 
     def initialize_game(self):
-        self.n = int(input('Size of the board:'))
+        
+        askInputs=True
+        # Standard values for testing
+        self.n = 5
+        self.b = 0
+        self.s = 3
+        self.d1 = 3
+        self.d2 = 3
+        self.t  = 3
+        self.a  = self.MINIMAX
+        self.p2 = self.AI
+        self.p1 = self.AI
+
+        if(askInputs):
+            self.n = int(input('Size of the board:'))
+            self.b = int(input('Number of blocks (#):'))
+            self.s = int(input('Winning Line-Up Size:'))
+            self.d1 = int(input('Maximum depth of the adversarial search for player 1:'))
+            self.d2 = int(input('Maximum depth of the adversarial search for player 2:'))
+            self.t = int(input('Maximum allowed time to return move [s]:'))
+            self.a = self.MINIMAX if bool(input('Use minimax (FALSE) or alphabeta (TRUE)?:')) else self.ALPHABETA
+            self.p2 = self.HUMAN if bool(input('Player 2 is human (TRUE) or AI (FALSE)?:')) else self.AI
+            self.p1 = self.HUMAN if bool(input('Player 1 is human (TRUE) or AI (FALSE)?:')) else self.AI
+        
         self.current_state = [['.' for i in range(self.n)]for j in range(self.n)] # list of n lists with n points
-        self.b = int(input('Number of blocks (#):'))
         self.b_pos = [tuple()] * self.b
+        
         for i, b in enumerate(self.b_pos):
             print('Enter the coordinate for the block ',i)
             px = int(input('enter the x coordinate: '))
             py = int(input('enter the y coordinate: '))
             self.b_pos[i] = (px,py) #can assume that input is valid
             self.current_state[px][py] = '#'
-
-        self.s= int(input('Winning Line-Up Size:'))
-        self.d1= int(input('Maximum depth of the adversarial search for player 1:'))
-        self.d2= int(input('Maximum depth of the adversarial search for player 2:'))
-        self.t= int(input('Maximum allowed time to return move [s]:'))
-        self.a = self.MINIMAX if bool(input('Use minimax (FALSE) or alphabeta (TRUE)?:')) else self.ALPHABETA
-        self.p2 = self.HUMAN if bool(input('Player 2 is human (TRUE) or AI (FALSE)?:')) else self.AI
-        self.p1 = self.HUMAN if bool(input('Player 1 is human (TRUE) or AI (FALSE)?:')) else self.AI
 
         # Player X always plays first
         self.player_turn = 'X'
@@ -210,11 +226,11 @@ class Game:
 
     def play(self,algo=None,player_x=None,player_o=None):
         if algo == None:
-            algo = self.ALPHABETA
+            algo = self.a
         if player_x == None:
-            player_x = self.HUMAN
+            player_x = self.p1
         if player_o == None:
-            player_o = self.HUMAN
+            player_o = self.p2
         while True:
             self.draw_board()
             if self.check_end():
@@ -245,7 +261,7 @@ class Game:
 def main():
     g = Game(recommend=True)
     # g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI)
-    g.play(algo=Game.MINIMAX,player_x=Game.AI,player_o=Game.HUMAN)
+    g.play(algo=Game.MINIMAX)
 
 if __name__ == "__main__":
     main()
