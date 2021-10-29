@@ -22,7 +22,7 @@ class Game:
 
     def initialize_game(self):
         
-        askInputs=True
+        askInputs=False
         # Standard values for testing
         self.n = 5
         self.b = 0
@@ -31,8 +31,8 @@ class Game:
         self.d2 = 3
         self.t  = 3
         self.a  = self.MINIMAX
-        self.p2 = self.AI
-        self.p1 = self.AI
+        self.pO = self.AI
+        self.pX = self.AI
 
         if(askInputs):
             self.n = int(input('Size of the board:'))
@@ -42,8 +42,8 @@ class Game:
             self.d2 = int(input('Maximum depth of the adversarial search for player 2:'))
             self.t = int(input('Maximum allowed time to return move [s]:'))
             self.a = self.MINIMAX if bool(input('Use minimax (FALSE) or alphabeta (TRUE)?:')) else self.ALPHABETA
-            self.p2 = self.HUMAN if bool(input('Player 2 is human (TRUE) or AI (FALSE)?:')) else self.AI
-            self.p1 = self.HUMAN if bool(input('Player 1 is human (TRUE) or AI (FALSE)?:')) else self.AI
+            self.pO = self.HUMAN if bool(input('Player 2 (O) is human (TRUE) or AI (FALSE)?:')) else self.AI
+            self.pX = self.HUMAN if bool(input('Player 1 (X) is human (TRUE) or AI (FALSE)?:')) else self.AI
         
         self.current_state = [['.' for i in range(self.n)]for j in range(self.n)] # list of n lists with n points
         self.b_pos = [tuple()] * self.b
@@ -106,8 +106,12 @@ class Game:
         # It's a tie!
         return '.'
 
-    def check_end(self):
-        self.result = self.is_end()
+    def check_end(self, wrong_move = False):
+        if wrong_move:
+            # Opponent wins if AI inputs wrong move
+            self.result = 'O' if self.player_turn == 'X' else 'O'
+        else:
+            self.result = self.is_end()
         # Printing the appropriate message if the game has ended
         if self.result != None:
             if self.result == 'X':
@@ -127,6 +131,9 @@ class Game:
             if self.is_valid(px, py):
                 return (px,py)
             else:
+                if ((self.player_turn == 'X' and self.pX ==self.AI) 
+                    or (self.player_turn == 'O' and self.pO == self.AI)):
+                    self.check_end(wrong_move = True)
                 print('The move is not valid! Try again.')
 
     def switch_player(self):
@@ -228,9 +235,9 @@ class Game:
         if algo == None:
             algo = self.a
         if player_x == None:
-            player_x = self.p1
+            player_x = self.pX
         if player_o == None:
-            player_o = self.p2
+            player_o = self.pO
         while True:
             self.draw_board()
             if self.check_end():
