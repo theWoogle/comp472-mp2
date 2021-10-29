@@ -2,7 +2,6 @@
 
 import time
 
-
 # Helper functions
 def letter2index(letter: str):
 	"""Convert capital letter to index (0-25)"""  
@@ -142,6 +141,59 @@ class Game:
         elif self.player_turn == 'O':
             self.player_turn = 'X'
         return self.player_turn
+
+    
+    # easier/faster: considers lines (hor,ver,diag) of size s in general
+    # with x_win: line is open for x to win = s adjacent Xs possible
+    # similar for O
+    def e1(self):
+        o_win = 0
+        x_win = 0
+        for i in range(0,self.n-self.s):
+            for j in range(0,self.n-self.s):
+                ## get line of length s for current tile
+                # horizontal right
+                hor = [self.current_state[i][x] for x in range(j,j+self.s)]
+                # vertical down
+                vert = [self.current_state[y][j] for y in range(i,i+self.s)]
+                # diagonal right down
+                diag = [self.current_state[i+d][j+d] for d in range(0,self.s)]
+                lines = [hor,vert,diag]
+                for line in lines:
+                    if any(tile == '#' for tile in line):
+                        break
+                    elif all(tile == '.' for tile in line):
+                        o_win += 1
+                        x_win += 1
+                    elif not (any(tile == 'X' for tile in line)):
+                        o_win += 1
+                    elif not (any(tile == 'O' for tile in line)):
+                        x_win += 1
+        return (o_win - x_win)
+
+        # # for every valid move
+        # for i in range(0,self.n):
+        #     for j in range(0,self.n):
+        #         if (self.is_valid(i,j)):
+        #             board_eval = self.current_state
+        #             board_eval[i][j] = self.player_turn
+
+
+    # winning path: empty path of size s around current tile
+    # winning path empty: 1 point
+    # wining path any symbol: 10 points
+    # winning path equal amount of symbols: 0 points
+    # winning path my>opponent and enough blanks to win: 50 points
+    # winning path opponent s-1 symbols: 100 points
+    # winning path s-1 own symbols: 200 points
+    # return sum of points per path in current tile
+
+    # or:
+    # with x_s1 = nb of lines with (s-1)Xs and at least 1 blank
+    # x_s2 = nb of lines with (s-2)Xs and  at least two blanks
+    # ...
+    # similar for O
+    # def e2(self):
 
     def minimax(self, max=False):
         # Minimizing for 'X' and maximizing for 'O'
