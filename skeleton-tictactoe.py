@@ -1,7 +1,7 @@
 # based on code from https://stackabuse.com/minimax-and-alpha-beta-pruning-in-python
 
 import time
-
+import string
 
 # Helper functions
 def letter2index(letter: str):
@@ -58,9 +58,50 @@ class Game:
         # Player X always plays first
         self.player_turn = 'X'
 
+    def gameTrace(self):
+        file1 = open("gameTrace-"+str(self.n)+str(self.b)+str(self.s)+str(self.t)+".txt", "a")
+
+        file1.write("n="+str(self.n)+" b="+str(self.b)+" s="+str(self.s)+" t="+str(self.t))
+
+        file1.write("\n\nblocs="+str(self.b_pos))
+
+        file1.write("\n\nPlayer 1: ")
+        file1.write("HUMAN" if self.pX == self.HUMAN else ("AI d="+str(self.d1)))
+        file1.write(" a="+ "False" if self.a == self.MINIMAX else ("True"))
+        file1.write(" (e1 or e2)\n")#TO DO
+        file1.write("\n\nPlayer 2: ")
+        file1.write("HUMAN" if self.pX == self.HUMAN else ("AI d=" + str(self.d1)))
+        file1.write(" a=" + "False" if self.a == self.MINIMAX else ("True"))
+        file1.write(" (e1 or e2)\n")  # TO DO
+
+        #Print the Initial table
+        file1.write("\n  ")
+        for i in range(0,self.n):
+            file1.write(string.ascii_uppercase[i])
+        file1.write("\n +")
+        for i in range(0,self.n):
+            file1.write("-")
+        file1.write("\n")
+        for y in range(0, self.n):
+            file1.write(str(y))
+            file1.write("|")
+            for x in range(0, self.n):
+                file1.write(self.current_state[x][y])
+            file1.write("\n")
+        file1.write("\n")
+
+
     def draw_board(self):
         print()
+        print("  ",end="")
+        for i in range(0, self.n):
+            print(string.ascii_uppercase[i], end="")
+        print("\n +", end="")
+        for i in range(0, self.n):
+            print("-", end="")
+        print()
         for y in range(0, self.n):
+            print(str(y)+"|", end="")
             for x in range(0, self.n):
                 print(self.current_state[x][y], end="")
             print()
@@ -268,6 +309,7 @@ class Game:
 def main():
     g = Game(recommend=True)
     # g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI)
+    g.gameTrace()
     g.play(algo=Game.MINIMAX)
 
 if __name__ == "__main__":
