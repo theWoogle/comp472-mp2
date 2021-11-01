@@ -26,13 +26,13 @@ class Game:
         # Standard values for testing
         self.n = 4
         self.b = 0
-        self.s = 3
-        self.dX = 3
-        self.dO = 3
+        self.s = 4
+        self.dX = 4
+        self.dO = 4
         self.t  = 3
         self.a  = self.MINIMAX
         self.pO = self.AI
-        self.pX = self.AI
+        self.pX = self.HUMAN
 
         if(askInputs):
             self.n = int(input('Size of the board:'))
@@ -75,36 +75,30 @@ class Game:
             return True
 
     def is_end(self): #cmust get updated
-        # Vertical win
-        for i in range(0, 3):
-            if (self.current_state[0][i] != '.' and
-             self.current_state[0][i] == self.current_state[1][i] and
-             self.current_state[1][i] == self.current_state[2][i]):
-                return self.current_state[0][i]
-        # Horizontal win
-        for i in range(0, 3):
-            if (self.current_state[i] == ['X', 'X', 'X']):
-                return 'X'
-            elif (self.current_state[i] == ['O', 'O', 'O']):
-                return 'O'
-        # Main diagonal win
-        if (self.current_state[0][0] != '.' and
-         self.current_state[0][0] == self.current_state[1][1] and
-         self.current_state[0][0] == self.current_state[2][2]):
-            return self.current_state[0][0]
-        # Second diagonal win
-        if (self.current_state[0][2] != '.' and
-         self.current_state[0][2] == self.current_state[1][1] and
-         self.current_state[0][2] == self.current_state[2][0]):
-            return self.current_state[0][2]
-        # Is whole board full?
-        for i in range(0, 3):
-            for j in range(0, 3):
-                # There's an empty field, we continue the game
-                if (self.current_state[i][j] == '.'):
-                    return None
-        # It's a tie!
-        return '.'
+        tie = True
+        for i in range(0,self.n):
+            for j in range(0,self.n):
+                ## get line of length s for current tile
+                # horizontal right
+                if self.current_state[i][j] == '.' : # empty tile exists --> can't be tie
+                    tie = False 
+                    break
+                if self.current_state[i][j] == '#' :
+                    break
+                hor = [self.current_state[i][x] for x in range(j,j+self.s) if (self.s+j)<=self.n]
+                # vertical down
+                vert = [self.current_state[y][j] for y in range(i,i+self.s) if (self.s+i)<=self.n]
+                # diagonal right down
+                diagr = [self.current_state[i+d][j+d] for d in range(0,self.s) if ((i+self.s) <= self.n and (j+self.s) <= self.n)]
+                # diagonal left down
+                diagl = [self.current_state[i+d][j-d] for d in range(0,self.s) if ((i+self.s) <= self.n and (j-self.s) >= -1)]
+                lines = [hor, vert, diagr, diagl]
+                for line in lines:
+                    if len(line) == self.s:
+                        if all(elem == 'X' for elem in line) or all(elem == 'O' for elem in line):
+                            return line[0]
+
+        return ('.' if tie else None)
 
     def check_end(self, wrong_move = False):
         if wrong_move:
@@ -148,6 +142,10 @@ class Game:
     # with x_win: line is open for x to win = s adjacent Xs possible
     # similar for O
     def e1(self):
+        """ 
+        Returns simple e1 for the current state of the board
+        """
+
         o_win = 0
         x_win = 0
         for i in range(0,self.n):
@@ -172,14 +170,6 @@ class Game:
                             x_win += 1
         return (o_win - x_win)
 
-        # # for every valid move
-        # for i in range(0,self.n):
-        #     for j in range(0,self.n):
-        #         if (self.is_valid(i,j)):
-        #             board_eval = self.current_state
-        #             board_eval[i][j] = self.player_turn
-
-
     # winning path: empty path of size s around current tile
     # winning path empty: 1 point
     # wining path any symbol: 10 points
@@ -203,14 +193,11 @@ class Game:
         # 0  - a tie
         # INTMAX  - loss for 'X'
         # We're initially setting it to 2 or -2 as worse than the worst case:
-        value = 2
+        value = INTMAX+1
         if max:
-            value = -2
+            value = -INTMAX-1
         x = None
         y = None
-        
-        if depth >= (self.dX if self.player_turn == 'X' else self.dO):
-            return (self.e1(), x, y)
 
         result = self.is_end()
         if result == 'X':
@@ -219,19 +206,22 @@ class Game:
             return (INTMAX, x, y)
         elif result == '.':
             return (0, x, y)
+        if depth >= (self.dX if self.player_turn == 'X' else self.dO):
+            return (self.e1(), x, y)
+
         for i in range(0, self.n):
             for j in range(0, self.n):
                 if self.current_state[i][j] == '.':
                     if max:
                         self.current_state[i][j] = 'O'
-                        (v, _, _) = self.minimax(max=False)
+                        (v, _, _) = self.minimax(depth+1, max=False)
                         if v > value:
                             value = v
                             x = i
                             y = j
                     else:
                         self.current_state[i][j] = 'X'
-                        (v, _, _) = self.minimax(max=True)
+                        (v, _, _) = self.minimax(depth+1, max=True)
                         if v < value:
                             value = v
                             x = i
