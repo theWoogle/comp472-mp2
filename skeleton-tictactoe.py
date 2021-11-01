@@ -8,6 +8,7 @@ def letter2index(letter: str):
 	"""Convert capital letter to index (0-25)"""  
 	return int(ord(letter) - 65)  # ordinal of A=65, a=97
 
+INTMAX = 100000 # not true but high
 
 class Game:
     MINIMAX = 0
@@ -24,22 +25,22 @@ class Game:
         
         askInputs=False
         # Standard values for testing
-        self.n = 5
+        self.n = 4
         self.b = 0
-        self.s = 3
-        self.d1 = 3
-        self.d2 = 3
+        self.s = 4
+        self.dX = 4
+        self.dO = 4
         self.t  = 3
         self.a  = self.MINIMAX
         self.pO = self.AI
-        self.pX = self.AI
+        self.pX = self.HUMAN
 
         if(askInputs):
             self.n = int(input('Size of the board:'))
             self.b = int(input('Number of blocks (#):'))
             self.s = int(input('Winning Line-Up Size:'))
-            self.d1 = int(input('Maximum depth of the adversarial search for player 1:'))
-            self.d2 = int(input('Maximum depth of the adversarial search for player 2:'))
+            self.dX = int(input('Maximum depth of the adversarial search for player 1:'))
+            self.dO = int(input('Maximum depth of the adversarial search for player 2:'))
             self.t = int(input('Maximum allowed time to return move [s]:'))
             self.a = self.MINIMAX if bool(input('Use minimax (FALSE) or alphabeta (TRUE)?:')) else self.ALPHABETA
             self.pO = self.HUMAN if bool(input('Player 2 (O) is human (TRUE) or AI (FALSE)?:')) else self.AI
@@ -115,37 +116,31 @@ class Game:
         else:
             return True
 
-    def is_end(self):
-        # Vertical win
-        for i in range(0, 3):
-            if (self.current_state[0][i] != '.' and
-             self.current_state[0][i] == self.current_state[1][i] and
-             self.current_state[1][i] == self.current_state[2][i]):
-                return self.current_state[0][i]
-        # Horizontal win
-        for i in range(0, 3):
-            if (self.current_state[i] == ['X', 'X', 'X']):
-                return 'X'
-            elif (self.current_state[i] == ['O', 'O', 'O']):
-                return 'O'
-        # Main diagonal win
-        if (self.current_state[0][0] != '.' and
-         self.current_state[0][0] == self.current_state[1][1] and
-         self.current_state[0][0] == self.current_state[2][2]):
-            return self.current_state[0][0]
-        # Second diagonal win
-        if (self.current_state[0][2] != '.' and
-         self.current_state[0][2] == self.current_state[1][1] and
-         self.current_state[0][2] == self.current_state[2][0]):
-            return self.current_state[0][2]
-        # Is whole board full?
-        for i in range(0, 3):
-            for j in range(0, 3):
-                # There's an empty field, we continue the game
-                if (self.current_state[i][j] == '.'):
-                    return None
-        # It's a tie!
-        return '.'
+    def is_end(self): #cmust get updated
+        tie = True
+        for i in range(0,self.n):
+            for j in range(0,self.n):
+                ## get line of length s for current tile
+                # horizontal right
+                if self.current_state[i][j] == '.' : # empty tile exists --> can't be tie
+                    tie = False 
+                    break
+                if self.current_state[i][j] == '#' :
+                    break
+                hor = [self.current_state[i][x] for x in range(j,j+self.s) if (self.s+j)<=self.n]
+                # vertical down
+                vert = [self.current_state[y][j] for y in range(i,i+self.s) if (self.s+i)<=self.n]
+                # diagonal right down
+                diagr = [self.current_state[i+d][j+d] for d in range(0,self.s) if ((i+self.s) <= self.n and (j+self.s) <= self.n)]
+                # diagonal left down
+                diagl = [self.current_state[i+d][j-d] for d in range(0,self.s) if ((i+self.s) <= self.n and (j-self.s) >= -1)]
+                lines = [hor, vert, diagr, diagl]
+                for line in lines:
+                    if len(line) == self.s:
+                        if all(elem == 'X' for elem in line) or all(elem == 'O' for elem in line):
+                            return line[0]
+
+        return ('.' if tie else None)
 
     def check_end(self, wrong_move = False):
         if wrong_move:
@@ -184,38 +179,91 @@ class Game:
             self.player_turn = 'X'
         return self.player_turn
 
-    def minimax(self, max=False):
+    
+    # easier/faster: considers lines (hor,ver,diag) of size s in general
+    # with x_win: line is open for x to win = s adjacent Xs possible
+    # similar for O
+    def e1(self):
+        """ 
+        Returns simple e1 for the current state of the board
+        """
+
+        o_win = 0
+        x_win = 0
+        for i in range(0,self.n):
+            for j in range(0,self.n):
+                ## get line of length s for current tile
+                # horizontal right
+                hor = [self.current_state[i][x] for x in range(j,j+self.s) if (self.s+j)<=self.n]
+                # vertical down
+                vert = [self.current_state[y][j] for y in range(i,i+self.s) if (self.s+i)<=self.n]
+                # diagonal right down
+                diagr = [self.current_state[i+d][j+d] for d in range(0,self.s) if ((i+self.s) <= self.n and (j+self.s) <= self.n)]
+                # diagonal left down
+                diagl = [self.current_state[i+d][j-d] for d in range(0,self.s) if ((i+self.s) <= self.n and (j-self.s) >= -1)]
+                lines = [hor,vert,diagr, diagl]
+                for line in lines:
+                    if any(tile == '#' for tile in line):
+                        break
+                    elif not(all(tile == '.' for tile in line)): # no need to give both 1 point
+                        if not (any(tile == 'X' for tile in line)):
+                            o_win += 1
+                        if not (any(tile == 'O' for tile in line)):
+                            x_win += 1
+        return (o_win - x_win)
+
+    # winning path: empty path of size s around current tile
+    # winning path empty: 1 point
+    # wining path any symbol: 10 points
+    # winning path equal amount of symbols: 0 points
+    # winning path my>opponent and enough blanks to win: 50 points
+    # winning path opponent s-1 symbols: 100 points
+    # winning path s-1 own symbols: 200 points
+    # return sum of points per path in current tile
+
+    # or:
+    # with x_s1 = nb of lines with (s-1)Xs and at least 1 blank
+    # x_s2 = nb of lines with (s-2)Xs and  at least two blanks
+    # ...
+    # similar for O
+    # def e2(self):
+
+    def minimax(self, depth=0, max=False):
         # Minimizing for 'X' and maximizing for 'O'
         # Possible values are:
-        # -1 - win for 'X'
+        # -INTMAX - win for 'X'
         # 0  - a tie
-        # 1  - loss for 'X'
+        # INTMAX  - loss for 'X'
         # We're initially setting it to 2 or -2 as worse than the worst case:
-        value = 2
+        value = INTMAX+1
         if max:
-            value = -2
+            value = -INTMAX-1
         x = None
         y = None
+
         result = self.is_end()
         if result == 'X':
-            return (-1, x, y)
+            return (-INTMAX, x, y)
         elif result == 'O':
-            return (1, x, y)
+            return (INTMAX, x, y)
         elif result == '.':
             return (0, x, y)
-        for i in range(0, 3):
-            for j in range(0, 3):
+        if depth >= (self.dX if self.player_turn == 'X' else self.dO):
+            return (self.e1(), x, y)
+
+        for i in range(0, self.n):
+            for j in range(0, self.n):
                 if self.current_state[i][j] == '.':
                     if max:
                         self.current_state[i][j] = 'O'
-                        (v, _, _) = self.minimax(max=False)
+                        (v, _, _) = self.minimax(depth+1, max=False)
                         if v > value:
                             value = v
                             x = i
                             y = j
                     else:
                         self.current_state[i][j] = 'X'
-                        (v, _, _) = self.minimax(max=True)
+                        (v, _, _) = self.minimax(depth+1, max=True)
                         if v < value:
                             value = v
                             x = i
@@ -242,8 +290,8 @@ class Game:
             return (1, x, y)
         elif result == '.':
             return (0, x, y)
-        for i in range(0, 3):
-            for j in range(0, 3):
+        for i in range(0, self.n):
+            for j in range(0, self.n):
                 if self.current_state[i][j] == '.':
                     if max:
                         self.current_state[i][j] = 'O'
@@ -284,6 +332,14 @@ class Game:
             if self.check_end():
                 return
             start = time.time()
+            values = [] 
+            for a in range(0,self.n):
+                for b in range(0,self.n):
+                    if(self.current_state[a][b] == '.'):
+                        self.current_state[a][b] = self.player_turn
+                        values.append(self.e1())
+                        self.current_state[a][b] = '.'
+            print(*values)
             if algo == self.MINIMAX:
                 if self.player_turn == 'X':
                     (_, x, y) = self.minimax(max=False)
