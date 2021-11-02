@@ -33,8 +33,8 @@ class Game:
         self.t  = 3
         self.a  = self.MINIMAX
         self.pO = self.AI
-        # self.pX = self.HUMAN
-        self.pX = self.AI
+        self.pX = self.HUMAN
+        # self.pX = self.AI
 
         if(askInputs):
             self.n = int(input('Size of the board:'))
@@ -59,7 +59,7 @@ class Game:
 
         # Player X always plays first
         self.player_turn = 'X'
-        self.filegametrace = open(F"gameTrace-{self.n}{self.b}{self.s}{self.t}.txt", "a")
+        # self.filegametrace = open(F"gameTrace-{self.n}{self.b}{self.s}{self.t}.txt", "a")
         self.numMoves=0
 
     def output1_4(self):
@@ -266,12 +266,17 @@ class Game:
                             totalpts_tile+=10
                         # winning path equal amount of symbols: 0 points
                         if  line.count('X') == line.count('O'):
-                            totalpts_tile += 0
+                            totalpts_tile+=0
                         # winning path my>opponent and enough blanks to win: 50 points
-                        
-
-
+                        if line.count('X') > 2 and line.count('O')==0:
+                            totalpts_tile += 50
+                        # winning path opponent s-1 symbols: 100 points
+                        if line.count('O') == (self.s -1) and line.count('X')==0:
+                            totalpts_tile+=100
+                        if line.count('X') == (self.s -1) and line.count('O')==0:
+                            totalpts_tile+=200
         return totalpts_tile
+
     def minimax(self, depth=0, max=False):
         # Minimizing for 'X' and maximizing for 'O'
         # Possible values are:
@@ -293,7 +298,7 @@ class Game:
         elif result == '.':
             return (0, x, y)
         if depth >= (self.dX if self.player_turn == 'X' else self.dO):
-            return (self.e1(), x, y)
+            return (self.e2(), x, y)
 
         for i in range(0, self.n):
             for j in range(0, self.n):
@@ -383,7 +388,7 @@ class Game:
                 for b in range(0,self.n):
                     if(self.current_state[a][b] == '.'):
                         self.current_state[a][b] = self.player_turn
-                        values.append(self.e1())
+                        values.append(self.e2())
                         self.current_state[a][b] = '.'
             print(*values)
             if algo == self.MINIMAX:
