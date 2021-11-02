@@ -33,7 +33,8 @@ class Game:
         self.t  = 3
         self.a  = self.MINIMAX
         self.pO = self.AI
-        self.pX = self.HUMAN
+        # self.pX = self.HUMAN
+        self.pX = self.AI
 
         if(askInputs):
             self.n = int(input('Size of the board:'))
@@ -58,39 +59,47 @@ class Game:
 
         # Player X always plays first
         self.player_turn = 'X'
+        self.filegametrace = open(F"gameTrace-{self.n}{self.b}{self.s}{self.t}.txt", "a")
+        self.numMoves=0
 
-    def gameTrace(self):
-        file1 = open("gameTrace-"+str(self.n)+str(self.b)+str(self.s)+str(self.t)+".txt", "a")
+    def output1_4(self):
+        self.filegametrace.write("n="+str(self.n)+" b="+str(self.b)+" s="+str(self.s)+" t="+str(self.t))
 
-        file1.write("n="+str(self.n)+" b="+str(self.b)+" s="+str(self.s)+" t="+str(self.t))
+        self.filegametrace.write("\nblocs="+str(self.b_pos))
 
-        file1.write("\n\nblocs="+str(self.b_pos))
+        self.filegametrace.write("\n\nPlayer 1: ")
+        self.filegametrace.write("HUMAN" if self.pX == self.HUMAN else "AI"+F' d={self.dX}')
+        self.filegametrace.write(" a=" + "False" if self.a == self.MINIMAX else ("True"))
+        self.filegametrace.write(" (e1 or e2)\n")#TO DO
+        self.filegametrace.write("Player 2: ")
+        self.filegametrace.write("HUMAN" if self.pX == self.HUMAN else "AI"+F' d={self.dO}')
+        self.filegametrace.write(" a=" + "False" if self.a == self.MINIMAX else ("True"))
+        self.filegametrace.write(" (e1 or e2)\n")  # TO DO
 
-        file1.write("\n\nPlayer 1: ")
-        file1.write("HUMAN" if self.pX == self.HUMAN else ("AI d="+str(self.d1)))
-        file1.write(" a="+ "False" if self.a == self.MINIMAX else ("True"))
-        file1.write(" (e1 or e2)\n")#TO DO
-        file1.write("\n\nPlayer 2: ")
-        file1.write("HUMAN" if self.pX == self.HUMAN else ("AI d=" + str(self.d1)))
-        file1.write(" a=" + "False" if self.a == self.MINIMAX else ("True"))
-        file1.write(" (e1 or e2)\n")  # TO DO
 
-        #Print the Initial table
-        file1.write("\n  ")
-        for i in range(0,self.n):
-            file1.write(string.ascii_uppercase[i])
-        file1.write("\n +")
-        for i in range(0,self.n):
-            file1.write("-")
-        file1.write("\n")
+    def drawboard_onfile(self):
+        self.filegametrace.write("\n  ")
+        for i in range(0, self.n):
+            self.filegametrace.write(string.ascii_uppercase[i])
+        self.filegametrace.write("\n +")
+        for i in range(0, self.n):
+            self.filegametrace.write("-")
+        self.filegametrace.write("\n")
         for y in range(0, self.n):
-            file1.write(str(y))
-            file1.write("|")
+            self.filegametrace.write(str(y))
+            self.filegametrace.write("|")
             for x in range(0, self.n):
-                file1.write(self.current_state[x][y])
-            file1.write("\n")
-        file1.write("\n")
+                self.filegametrace.write(self.current_state[x][y])
+            self.filegametrace.write("\n")
+        self.filegametrace.write("\n")
 
+    def output6(self):
+        self.filegametrace.write(F'6(b)i   Average evaluation time:\n')
+        self.filegametrace.write(F'6(b)ii  Total heuristic evaluations:\n')
+        self.filegametrace.write(F'6(b)iii Evaluations by depth:\n')
+        self.filegametrace.write(F'6(b)iv  Average evaluation depth:\n')
+        self.filegametrace.write(F'6(b)v   Average recursion depth:\n')
+        self.filegametrace.write(F'6(b)vi  Total moves:{self.numMoves}')
 
     def draw_board(self):
         print()
@@ -152,10 +161,13 @@ class Game:
         if self.result != None:
             if self.result == 'X':
                 print('The winner is X!')
+                self.filegametrace.write('The winner is X!\n\n')
             elif self.result == 'O':
                 print('The winner is O!')
+                self.filegametrace.write('The winner is O!\n\n')
             elif self.result == '.':
                 print("It's a tie!")
+                self.filegametrace.write("It's a tie!\n\n")
             self.initialize_game()
         return self.result
 
@@ -327,8 +339,10 @@ class Game:
             player_x = self.pX
         if player_o == None:
             player_o = self.pO
+        self.output1_4()
         while True:
             self.draw_board()
+            self.drawboard_onfile()
             if self.check_end():
                 return
             start = time.time()
@@ -358,14 +372,23 @@ class Game:
                 (x,y) = self.input_move()
             if (self.player_turn == 'X' and player_x == self.AI) or (self.player_turn == 'O' and player_o == self.AI):
                 print(F'Evaluation time: {round(end - start, 7)}s')
-                print(F'Player {self.player_turn} under AI control plays: x = {x}, y = {y}')
+                # print(F'Player {self.player_turn} under AI control plays: x = {x}, y = {y}')
+                print(F'Player {self.player_turn} under AI control plays: {string.ascii_uppercase[x]}{y}')
+                self.numMoves=+1
+                self.filegametrace.write(F'Player {self.player_turn} under AI control plays: {string.ascii_uppercase[x]}{y}\n\n')
+                self.filegametrace.write(F'i\tEvaluation time: {round(end - start, 7)}s\n')
+                self.filegametrace.write(F'ii\tHeuristic evaluations:\n')
+                self.filegametrace.write(F'iii\tEvaluations by depth:\n')
+                self.filegametrace.write(F'iv\tAverage evaluation depth:\n')
+                self.filegametrace.write(F'v\tAverage recursion depth:\n\n')
+
             self.current_state[x][y] = self.player_turn
             self.switch_player()
+
 
 def main():
     g = Game(recommend=True)
     # g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI)
-    g.gameTrace()
     g.play(algo=Game.MINIMAX)
 
 if __name__ == "__main__":
