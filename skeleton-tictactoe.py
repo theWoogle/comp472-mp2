@@ -162,12 +162,15 @@ class Game:
             if self.result == 'X':
                 print('The winner is X!')
                 self.filegametrace.write('The winner is X!\n\n')
+                self.output6()
             elif self.result == 'O':
                 print('The winner is O!')
                 self.filegametrace.write('The winner is O!\n\n')
+                self.output6()
             elif self.result == '.':
                 print("It's a tie!")
                 self.filegametrace.write("It's a tie!\n\n")
+                self.output6()
             self.initialize_game()
         return self.result
 
@@ -374,7 +377,7 @@ class Game:
                 print(F'Evaluation time: {round(end - start, 7)}s')
                 # print(F'Player {self.player_turn} under AI control plays: x = {x}, y = {y}')
                 print(F'Player {self.player_turn} under AI control plays: {string.ascii_uppercase[x]}{y}')
-                self.numMoves=+1
+                self.numMoves+=1
                 self.filegametrace.write(F'Player {self.player_turn} under AI control plays: {string.ascii_uppercase[x]}{y}\n\n')
                 self.filegametrace.write(F'i\tEvaluation time: {round(end - start, 7)}s\n')
                 self.filegametrace.write(F'ii\tHeuristic evaluations:\n')
