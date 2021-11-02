@@ -161,16 +161,16 @@ class Game:
         if self.result != None:
             if self.result == 'X':
                 print('The winner is X!')
-                self.filegametrace.write('The winner is X!\n\n')
-                self.output6()
+                # self.filegametrace.write('The winner is X!\n\n')
+                # self.output6()
             elif self.result == 'O':
                 print('The winner is O!')
-                self.filegametrace.write('The winner is O!\n\n')
-                self.output6()
+                # self.filegametrace.write('The winner is O!\n\n')
+                # self.output6()
             elif self.result == '.':
                 print("It's a tie!")
-                self.filegametrace.write("It's a tie!\n\n")
-                self.output6()
+                # self.filegametrace.write("It's a tie!\n\n")
+                # self.output6()
             self.initialize_game()
         return self.result
 
@@ -241,8 +241,37 @@ class Game:
     # x_s2 = nb of lines with (s-2)Xs and  at least two blanks
     # ...
     # similar for O
-    # def e2(self):
+    def e2(self):
+        totalpts_tile=0
+        for i in range(0,self.n):
+            for j in range(0,self.n):
+                ## get line of length s for current tile
+                # horizontal right
+                hor = [self.current_state[i][x] for x in range(j,j+self.s) if (self.s+j)<=self.n]
+                # vertical down
+                vert = [self.current_state[y][j] for y in range(i,i+self.s) if (self.s+i)<=self.n]
+                # diagonal right down
+                diagr = [self.current_state[i+d][j+d] for d in range(0,self.s) if ((i+self.s) <= self.n and (j+self.s) <= self.n)]
+                # diagonal left down
+                diagl = [self.current_state[i+d][j-d] for d in range(0,self.s) if ((i+self.s) <= self.n and (j-self.s) >= -1)]
+                lines = [hor,vert,diagr, diagl]
+                for line in lines:
+                    # if any(tile == '#' for tile in line):
+                    #     break
+                    if all(tile == '.' for tile in line):# winning path empty: 1 point
+                        totalpts_tile+=1
+                    elif not(all(tile == '.' for tile in line)):
+                        # wining path any symbol: 10 points
+                        if (line.count('X') == 1 and line.count('O') == 0) or (line.count('O') == 1 and line.count('X') == 0):
+                            totalpts_tile+=10
+                        # winning path equal amount of symbols: 0 points
+                        if  line.count('X') == line.count('O'):
+                            totalpts_tile += 0
+                        # winning path my>opponent and enough blanks to win: 50 points
+                        
 
+
+        return totalpts_tile
     def minimax(self, depth=0, max=False):
         # Minimizing for 'X' and maximizing for 'O'
         # Possible values are:
@@ -342,10 +371,10 @@ class Game:
             player_x = self.pX
         if player_o == None:
             player_o = self.pO
-        self.output1_4()
+        # self.output1_4()
         while True:
             self.draw_board()
-            self.drawboard_onfile()
+            # self.drawboard_onfile()
             if self.check_end():
                 return
             start = time.time()
@@ -377,13 +406,13 @@ class Game:
                 print(F'Evaluation time: {round(end - start, 7)}s')
                 # print(F'Player {self.player_turn} under AI control plays: x = {x}, y = {y}')
                 print(F'Player {self.player_turn} under AI control plays: {string.ascii_uppercase[x]}{y}')
-                self.numMoves+=1
-                self.filegametrace.write(F'Player {self.player_turn} under AI control plays: {string.ascii_uppercase[x]}{y}\n\n')
-                self.filegametrace.write(F'i\tEvaluation time: {round(end - start, 7)}s\n')
-                self.filegametrace.write(F'ii\tHeuristic evaluations:\n')
-                self.filegametrace.write(F'iii\tEvaluations by depth:\n')
-                self.filegametrace.write(F'iv\tAverage evaluation depth:\n')
-                self.filegametrace.write(F'v\tAverage recursion depth:\n\n')
+                # self.numMoves+=1
+                # self.filegametrace.write(F'Player {self.player_turn} under AI control plays: {string.ascii_uppercase[x]}{y}\n\n')
+                # self.filegametrace.write(F'i\tEvaluation time: {round(end - start, 7)}s\n')
+                # self.filegametrace.write(F'ii\tHeuristic evaluations:\n')
+                # self.filegametrace.write(F'iii\tEvaluations by depth:\n')
+                # self.filegametrace.write(F'iv\tAverage evaluation depth:\n')
+                # self.filegametrace.write(F'v\tAverage recursion depth:\n\n')
 
             self.current_state[x][y] = self.player_turn
             self.switch_player()
