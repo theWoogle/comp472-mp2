@@ -33,8 +33,8 @@ class Game:
         self.t  = 3
         self.a  = self.MINIMAX
         self.pO = self.AI
-        self.pX = self.HUMAN
-        # self.pX = self.AI
+        # self.pX = self.HUMAN
+        self.pX = self.AI
 
         if(askInputs):
             self.n = int(input('Size of the board:'))
@@ -241,41 +241,71 @@ class Game:
     # x_s2 = nb of lines with (s-2)Xs and  at least two blanks
     # ...
     # similar for O
+    # def e2(self):
+    #     totalpts_tile=0
+    #     for i in range(0,self.n):
+    #         for j in range(0,self.n):
+    #             ## get line of length s for current tile
+    #             # horizontal right
+    #             hor = [self.current_state[i][x] for x in range(j,j+self.s) if (self.s+j)<=self.n]
+    #             # vertical down
+    #             vert = [self.current_state[y][j] for y in range(i,i+self.s) if (self.s+i)<=self.n]
+    #             # diagonal right down
+    #             diagr = [self.current_state[i+d][j+d] for d in range(0,self.s) if ((i+self.s) <= self.n and (j+self.s) <= self.n)]
+    #             # diagonal left down
+    #             diagl = [self.current_state[i+d][j-d] for d in range(0,self.s) if ((i+self.s) <= self.n and (j-self.s) >= -1)]
+    #             lines = [hor,vert,diagr, diagl]
+    #             for line in lines:
+    #                 # if any(tile == '#' for tile in line):
+    #                 #     break
+    #                 if all(tile == '.' for tile in line):# winning path empty: 1 point
+    #                     totalpts_tile+=1
+    #                 elif not(all(tile == '.' for tile in line)):
+    #                     # wining path any symbol: 10 points
+    #                     if (line.count('X') == 1 and line.count('O') == 0) or (line.count('O') == 1 and line.count('X') == 0):
+    #                         totalpts_tile+=10
+    #                     # winning path equal amount of symbols: 0 points
+    #                     if  line.count('X') == line.count('O'):
+    #                         totalpts_tile+=0
+    #                     # winning path my>opponent and enough blanks to win: 50 points
+    #                     if line.count('X') > 2 and line.count('O')==0:
+    #                         totalpts_tile += 50
+    #                     # winning path opponent s-1 symbols: 100 points
+    #                     if line.count('O') == (self.s -1) and line.count('X')==0:
+    #                         totalpts_tile+=100
+    #                     if line.count('X') == (self.s -1) and line.count('O')==0:
+    #                         totalpts_tile+=200
+    #     return totalpts_tile
+
+    #Assigns a positive value to every n-in-a-row the player has
+    #A negative value to every n-in-a-row the opponent has
+    #An n-in-a-row is worth about an order of magnitude more than an (n-1)-in-a-row
+    #The opponent’s rows are worth slightly more than the player’s rows
+
     def e2(self):
-        totalpts_tile=0
-        for i in range(0,self.n):
-            for j in range(0,self.n):
+        o_win = 0
+        x_win = 0
+        for i in range(0, self.n):
+            for j in range(0, self.n):
                 ## get line of length s for current tile
                 # horizontal right
-                hor = [self.current_state[i][x] for x in range(j,j+self.s) if (self.s+j)<=self.n]
+                hor = [self.current_state[i][x] for x in range(j, j + self.s) if (self.s + j) <= self.n]
                 # vertical down
-                vert = [self.current_state[y][j] for y in range(i,i+self.s) if (self.s+i)<=self.n]
+                vert = [self.current_state[y][j] for y in range(i, i + self.s) if (self.s + i) <= self.n]
                 # diagonal right down
-                diagr = [self.current_state[i+d][j+d] for d in range(0,self.s) if ((i+self.s) <= self.n and (j+self.s) <= self.n)]
+                diagr = [self.current_state[i + d][j + d] for d in range(0, self.s) if
+                         ((i + self.s) <= self.n and (j + self.s) <= self.n)]
                 # diagonal left down
-                diagl = [self.current_state[i+d][j-d] for d in range(0,self.s) if ((i+self.s) <= self.n and (j-self.s) >= -1)]
-                lines = [hor,vert,diagr, diagl]
+                diagl = [self.current_state[i + d][j - d] for d in range(0, self.s) if
+                         ((i + self.s) <= self.n and (j - self.s) >= -1)]
+                lines = [hor, vert, diagr, diagl]
                 for line in lines:
-                    # if any(tile == '#' for tile in line):
-                    #     break
-                    if all(tile == '.' for tile in line):# winning path empty: 1 point
-                        totalpts_tile+=1
-                    elif not(all(tile == '.' for tile in line)):
-                        # wining path any symbol: 10 points
-                        if (line.count('X') == 1 and line.count('O') == 0) or (line.count('O') == 1 and line.count('X') == 0):
-                            totalpts_tile+=10
-                        # winning path equal amount of symbols: 0 points
-                        if  line.count('X') == line.count('O'):
-                            totalpts_tile+=0
-                        # winning path my>opponent and enough blanks to win: 50 points
-                        if line.count('X') > 2 and line.count('O')==0:
-                            totalpts_tile += 50
-                        # winning path opponent s-1 symbols: 100 points
-                        if line.count('O') == (self.s -1) and line.count('X')==0:
-                            totalpts_tile+=100
-                        if line.count('X') == (self.s -1) and line.count('O')==0:
-                            totalpts_tile+=200
-        return totalpts_tile
+                    if self.player_turn == 'X':
+                        x_win += 1*pow(10,line.count('X'))
+                    if self.player_turn == 'O':
+                        o_win += 1.5*pow(10,line.count('O'))
+        return(x_win-o_win)
+
 
     def minimax(self, depth=0, max=False):
         # Minimizing for 'X' and maximizing for 'O'
