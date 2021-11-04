@@ -283,8 +283,9 @@ class Game:
     #The opponent’s rows are worth slightly more than the player’s rows
 
     def e2(self):
-        o_win = 0
-        x_win = 0
+        # o_win = 0
+        # x_win = 0
+        points=0
         for i in range(0, self.n):
             for j in range(0, self.n):
                 ## get line of length s for current tile
@@ -301,10 +302,10 @@ class Game:
                 lines = [hor, vert, diagr, diagl]
                 for line in lines:
                     if self.player_turn == 'X':
-                        x_win += 1*pow(10,line.count('X'))
+                        points += 1*pow(10,line.count('X'))
                     if self.player_turn == 'O':
-                        o_win += 1.5*pow(10,line.count('O'))
-        return(x_win-o_win)
+                        points -= int(1.5*pow(10,line.count('O')))
+        return(points)
 
 
     def minimax(self, depth=0, max=False):
