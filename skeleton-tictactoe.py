@@ -8,6 +8,10 @@ def letter2index(letter: str):
 	"""Convert capital letter to index (0-25)"""  
 	return int(ord(letter) - 65)  # ordinal of A=65, a=97
 
+
+index2letter = lambda a : chr(65+a)
+"""Convert index (0-25) to capital letter"""  
+
 INTMAX = 100000 # not true but high
 
 class Game:
@@ -36,6 +40,9 @@ class Game:
         # self.pX = self.HUMAN
         self.pX = self.AI
 
+        self.visited_states = 0
+        self.average_rec_depth = 0
+
         if(askInputs):
             self.n = int(input('Size of the board:'))
             self.b = int(input('Number of blocks (#):'))
@@ -49,6 +56,7 @@ class Game:
         
         self.current_state = [['.' for i in range(self.n)]for j in range(self.n)] # list of n lists with n points
         self.b_pos = [tuple()] * self.b
+        self.evaluated_states = [0] * max(self.dX, self.dO)
         
         for i, b in enumerate(self.b_pos):
             print('Enter the coordinate for the block ',i)
@@ -75,6 +83,21 @@ class Game:
         self.filegametrace.write("HUMAN" if self.pX == self.HUMAN else "AI"+F' d={self.dO}')
         self.filegametrace.write(" a=" + "False" if self.a == self.MINIMAX else ("True"))
         self.filegametrace.write(" (e1 or e2)\n")  # TO DO
+
+    def output_5(self,x,y,eval_time):
+        self.filegametrace.write("Player" + self.player_turn +  "plays" + index2letter(x) + str(y) + "\n")
+        self.drawboard_onfile()
+        self.filegametrace.write("Evaluation time: %is \n" %eval_time)
+        self.filegametrace.write("Visited states: %i \n" %self.visited_states)
+        self.filegametrace.write("States evaluated per depth: \n")
+        max_depth = self.dx if self.player_turn == 'X' else self.dO
+        for i in range(max_depth):
+            self.filegametrace.write("\t depth %i" %(i+1)) #ignore depth 0
+        self.filegametrace.write("\n")
+        for no_states in self.evaluated_States:
+            self.filegametrace.write("\t %i" %no_states)
+        self.filegametrace.write("\nAverage depth: %i " %sum((i+1)*self.evaluated_states[i] for i in range(max_depth)))
+        # TODO: average recursion depth
 
 
     def drawboard_onfile(self):
@@ -329,6 +352,7 @@ class Game:
         elif result == '.':
             return (0, x, y)
         if depth >= (self.dX if self.player_turn == 'X' else self.dO):
+            self.visited_states += 1
             return (self.e2(), x, y)
 
         for i in range(0, self.n):
@@ -349,6 +373,7 @@ class Game:
                             x = i
                             y = j
                     self.current_state[i][j] = '.'
+                    self.evaluated_states[depth] += 1
         return (value, x, y)
 
     def alphabeta(self, alpha=-2, beta=2, max=False):
@@ -422,6 +447,8 @@ class Game:
                         values.append(self.e2())
                         self.current_state[a][b] = '.'
             print(*values)
+            self.visited_states = 0
+            self.average_rec_depth = 0
             if algo == self.MINIMAX:
                 if self.player_turn == 'X':
                     (_, x, y) = self.minimax(max=False)
@@ -433,13 +460,16 @@ class Game:
                 else:
                     (m, x, y) = self.alphabeta(max=True)
             end = time.time()
+            eval_time = round(end - start, 7)
             if (self.player_turn == 'X' and player_x == self.HUMAN) or (self.player_turn == 'O' and player_o == self.HUMAN):
                 if self.recommend:
-                    print(F'Evaluation time: {round(end - start, 7)}s')
+                    print(F'Evaluation time: {eval_time}s')
                     print(F'Recommended move: x = {x}, y = {y}')
                 (x,y) = self.input_move()
             if (self.player_turn == 'X' and player_x == self.AI) or (self.player_turn == 'O' and player_o == self.AI):
-                print(F'Evaluation time: {round(end - start, 7)}s')
+                print(F'Evaluation time: {eval_time}s')
+                if (eval_time>self.t):
+                    self.check_end(wrong_move=True)
                 # print(F'Player {self.player_turn} under AI control plays: x = {x}, y = {y}')
                 print(F'Player {self.player_turn} under AI control plays: {string.ascii_uppercase[x]}{y}')
                 # self.numMoves+=1
@@ -449,13 +479,14 @@ class Game:
                 # self.filegametrace.write(F'iii\tEvaluations by depth:\n')
                 # self.filegametrace.write(F'iv\tAverage evaluation depth:\n')
                 # self.filegametrace.write(F'v\tAverage recursion depth:\n\n')
-
+            # self.output_5(x,y,eval_time)
             self.current_state[x][y] = self.player_turn
             self.switch_player()
 
 
 def main():
     g = Game(recommend=True)
+    print(index2letter(0))
     # g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI)
     g.play(algo=Game.MINIMAX)
 
