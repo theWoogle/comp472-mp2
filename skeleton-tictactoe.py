@@ -33,8 +33,8 @@ class Game:
         self.t  = 3
         self.a  = self.MINIMAX
         self.pO = self.AI
-        # self.pX = self.HUMAN
-        self.pX = self.AI
+        self.pX = self.HUMAN
+        # self.pX = self.AI
 
         if(askInputs):
             self.n = int(input('Size of the board:'))
@@ -59,8 +59,10 @@ class Game:
 
         # Player X always plays first
         self.player_turn = 'X'
-        # self.filegametrace = open(F"gameTrace-{self.n}{self.b}{self.s}{self.t}.txt", "a")
+        self.filegametrace = open(F"gameTrace-{self.n}{self.b}{self.s}{self.t}.txt", "a")
         self.numMoves=0
+        self.using_e1=False
+
 
     def output1_4(self):
         self.filegametrace.write("n="+str(self.n)+" b="+str(self.b)+" s="+str(self.s)+" t="+str(self.t))
@@ -68,13 +70,13 @@ class Game:
         self.filegametrace.write("\nblocs="+str(self.b_pos))
 
         self.filegametrace.write("\n\nPlayer 1: ")
-        self.filegametrace.write("HUMAN" if self.pX == self.HUMAN else "AI"+F' d={self.dX}')
-        self.filegametrace.write(" a=" + "False" if self.a == self.MINIMAX else ("True"))
-        self.filegametrace.write(" (e1 or e2)\n")#TO DO
+        self.filegametrace.write("HUMAN" if self.pX == self.HUMAN else "AI")
+        self.filegametrace.write(F" d={self.dX} a=" + "False" if self.a == self.MINIMAX else ("True"))
+        self.filegametrace.write(" e1(regular)" if self.using_e1 else " e2(defensive)\n")#TO DO
         self.filegametrace.write("Player 2: ")
-        self.filegametrace.write("HUMAN" if self.pX == self.HUMAN else "AI"+F' d={self.dO}')
-        self.filegametrace.write(" a=" + "False" if self.a == self.MINIMAX else ("True"))
-        self.filegametrace.write(" (e1 or e2)\n")  # TO DO
+        self.filegametrace.write("HUMAN" if self.pO == self.HUMAN else "AI")
+        self.filegametrace.write(F" d={self.dO} a=" + "False" if self.a == self.MINIMAX else ("True"))
+        self.filegametrace.write(" e1(regular)" if self.using_e1 else " e2(defensive)\n")#TO DO
 
 
     def drawboard_onfile(self):
@@ -281,6 +283,7 @@ class Game:
     #A negative value to every n-in-a-row the opponent has
     #An n-in-a-row is worth about an order of magnitude more than an (n-1)-in-a-row
     #The opponent’s rows are worth slightly more than the player’s rows
+    #This encourage the player to block before building its own rows.
 
     def e2(self):
         # o_win = 0
@@ -407,7 +410,7 @@ class Game:
             player_x = self.pX
         if player_o == None:
             player_o = self.pO
-        # self.output1_4()
+        self.output1_4()
         while True:
             self.draw_board()
             # self.drawboard_onfile()
