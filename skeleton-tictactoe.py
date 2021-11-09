@@ -84,11 +84,11 @@ class Game:
         self.filegametrace.write("\n\nPlayer 1: ")
         self.filegametrace.write("HUMAN" if self.pX == self.HUMAN else "AI")
         self.filegametrace.write(F" d={self.dX} a=" + "False" if self.a == self.MINIMAX else ("True"))
-        self.filegametrace.write(" e1(regular)" if self.using_e1 else " e2(defensive)\n")#TO DO
+        self.filegametrace.write(" e1(regular)" if self.eX == self.E1 else " e2(defensive)\n")#TO DO
         self.filegametrace.write("Player 2: ")
         self.filegametrace.write("HUMAN" if self.pO == self.HUMAN else "AI")
         self.filegametrace.write(F" d={self.dO} a=" + "False" if self.a == self.MINIMAX else ("True"))
-        self.filegametrace.write(" e1(regular)" if self.using_e1 else " e2(defensive)\n")#TO DO
+        self.filegametrace.write(" e1(regular)" if self.eO == self.E1 else " e2(defensive)\n")#TO DO
 
     def output_5(self,x,y,eval_time):
         self.filegametrace.write("Player" + self.player_turn +  "plays" + index2letter(x) + str(y) + "\n")
@@ -96,11 +96,11 @@ class Game:
         self.filegametrace.write("Evaluation time: %is \n" %eval_time)
         self.filegametrace.write("Visited states: %i \n" %self.visited_states)
         self.filegametrace.write("States evaluated per depth: \n")
-        max_depth = self.dx if self.player_turn == 'X' else self.dO
+        max_depth = self.dX if self.player_turn == 'X' else self.dO
         for i in range(max_depth):
             self.filegametrace.write("\t depth %i" %(i+1)) #ignore depth 0
         self.filegametrace.write("\n")
-        for no_states in self.evaluated_States:
+        for no_states in self.evaluated_states:
             self.filegametrace.write("\t %i" %no_states)
         self.filegametrace.write("\nAverage depth: %i " %sum((i+1)*self.evaluated_states[i] for i in range(max_depth)))
         # TODO: average recursion depth
@@ -489,7 +489,7 @@ class Game:
                 # self.filegametrace.write(F'iii\tEvaluations by depth:\n')
                 # self.filegametrace.write(F'iv\tAverage evaluation depth:\n')
                 # self.filegametrace.write(F'v\tAverage recursion depth:\n\n')
-            # self.output_5(x,y,eval_time)
+            self.output_5(x,y,eval_time)
             self.current_state[x][y] = self.player_turn
             self.switch_player()
 
