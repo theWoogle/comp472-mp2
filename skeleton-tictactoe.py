@@ -92,15 +92,18 @@ class Game:
 
     def output_5(self,x,y,eval_time):
         self.filegametrace.write("\nPlayer " + self.player_turn +  " plays " + index2letter(x) + str(y) + "\n")
-        self.filegametrace.write("Evaluation time: %.3fs \n" %eval_time)
+        self.filegametrace.write("Evaluation time: %.7fs \n" %eval_time)
         self.filegametrace.write("Visited states: %i \n" %self.visited_states)
         self.filegametrace.write("States evaluated per depth: \n")
+        
         max_depth = self.dX if self.player_turn == 'X' else self.dO
         for i in range(max_depth):
             self.filegametrace.write("\t depth %i" %(i+1)) #ignore depth 0
+
         self.filegametrace.write("\n")
         for no_states in self.evaluated_states:
             self.filegametrace.write("\t %i \t" %no_states)
+
         avg_depth = sum((i+1)*self.evaluated_states[i] for i in range(max_depth))/self.visited_states
         self.filegametrace.write("\nAverage depth: %.3f\n " %avg_depth)
         # TODO: average recursion depth
@@ -351,6 +354,7 @@ class Game:
         x = None
         y = None
 
+        self.visited_states += 1
         result = self.is_end()
         if result == 'X':
             return (-INTMAX, x, y)
@@ -359,7 +363,6 @@ class Game:
         elif result == '.':
             return (0, x, y)
         if depth >= (self.dX if self.player_turn == 'X' else self.dO):
-            self.visited_states += 1
             if self.player_turn == 'X' and self.eX == self.E1 or self.player_turn == 'O' and self.eO == self.E1:
                 return(self.e1(), x, y)
             elif self.player_turn == 'X' and self.eX == self.E2 or self.player_turn == 'O' and self.eO == self.E2:
