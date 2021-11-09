@@ -91,18 +91,18 @@ class Game:
         self.filegametrace.write(" e1(regular)" if self.using_e1 else " e2(defensive)\n")#TO DO
 
     def output_5(self,x,y,eval_time):
-        self.filegametrace.write("Player" + self.player_turn +  "plays" + index2letter(x) + str(y) + "\n")
-        self.drawboard_onfile()
-        self.filegametrace.write("Evaluation time: %is \n" %eval_time)
+        self.filegametrace.write("\nPlayer " + self.player_turn +  " plays " + index2letter(x) + str(y) + "\n")
+        self.filegametrace.write("Evaluation time: %.3fs \n" %eval_time)
         self.filegametrace.write("Visited states: %i \n" %self.visited_states)
         self.filegametrace.write("States evaluated per depth: \n")
-        max_depth = self.dx if self.player_turn == 'X' else self.dO
+        max_depth = self.dX if self.player_turn == 'X' else self.dO
         for i in range(max_depth):
             self.filegametrace.write("\t depth %i" %(i+1)) #ignore depth 0
         self.filegametrace.write("\n")
-        for no_states in self.evaluated_States:
-            self.filegametrace.write("\t %i" %no_states)
-        self.filegametrace.write("\nAverage depth: %i " %sum((i+1)*self.evaluated_states[i] for i in range(max_depth)))
+        for no_states in self.evaluated_states:
+            self.filegametrace.write("\t %i \t" %no_states)
+            avg_depth = sum((i+1)*self.evaluated_states[i] for i in range(max_depth))/self.visited_states
+        self.filegametrace.write("\nAverage depth: %.3f\n " %avg_depth)
         # TODO: average recursion depth
 
 
@@ -386,16 +386,16 @@ class Game:
                     self.evaluated_states[depth] += 1
         return (value, x, y)
 
-    def alphabeta(self, alpha=-2, beta=2, max=False):
+    def alphabeta(self, depth = 0, alpha=-INTMAX, beta=INTMAX, max=False):
         # Minimizing for 'X' and maximizing for 'O'
         # Possible values are:
         # -1 - win for 'X'
         # 0  - a tie
         # 1  - loss for 'X'
         # We're initially setting it to 2 or -2 as worse than the worst case:
-        value = 2
+        value = INTMAX
         if max:
-            value = -2
+            value = -INTMAX
         x = None
         y = None
         result = self.is_end()
@@ -405,19 +405,26 @@ class Game:
             return (1, x, y)
         elif result == '.':
             return (0, x, y)
+        if depth >= (self.dX if self.player_turn == 'X' else self.dO):
+            self.visited_states += 1
+            if self.player_turn == 'X' and self.eX == self.E1 or self.player_turn == 'O' and self.eO == self.E1:
+                return(self.e1(), x, y)
+            elif self.player_turn == 'X' and self.eX == self.E2 or self.player_turn == 'O' and self.eO == self.E2:
+                return(self.e2(), x, y)
+
         for i in range(0, self.n):
             for j in range(0, self.n):
                 if self.current_state[i][j] == '.':
                     if max:
                         self.current_state[i][j] = 'O'
-                        (v, _, _) = self.alphabeta(alpha, beta, max=False)
+                        (v, _, _) = self.alphabeta(depth + 1, alpha, beta, max=False)
                         if v > value:
                             value = v
                             x = i
                             y = j
                     else:
                         self.current_state[i][j] = 'X'
-                        (v, _, _) = self.alphabeta(alpha, beta, max=True)
+                        (v, _, _) = self.alphabeta(depth + 1, alpha, beta, max=True)
                         if v < value:
                             value = v
                             x = i
@@ -445,7 +452,7 @@ class Game:
         self.output1_4()
         while True:
             self.draw_board()
-            # self.drawboard_onfile()
+            self.drawboard_onfile()
             if self.check_end():
                 return
             start = time.time()
@@ -489,7 +496,7 @@ class Game:
                 # self.filegametrace.write(F'iii\tEvaluations by depth:\n')
                 # self.filegametrace.write(F'iv\tAverage evaluation depth:\n')
                 # self.filegametrace.write(F'v\tAverage recursion depth:\n\n')
-            # self.output_5(x,y,eval_time)
+            self.output_5(x,y,eval_time)
             self.current_state[x][y] = self.player_turn
             self.switch_player()
 
