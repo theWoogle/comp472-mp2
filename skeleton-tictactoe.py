@@ -84,11 +84,11 @@ class Game:
         self.filegametrace.write("\n\nPlayer 1: ")
         self.filegametrace.write("HUMAN" if self.pX == self.HUMAN else "AI")
         self.filegametrace.write(F" d={self.dX} a=" + "False" if self.a == self.MINIMAX else ("True"))
-        self.filegametrace.write(" e1(regular)" if self.using_e1 else " e2(defensive)\n")#TO DO
-        self.filegametrace.write("Player 2: ")
+        self.filegametrace.write(" e1(regular)" if self.eX == self.E1 else " e2(defensive)\n")#TO DO
+        self.filegametrace.write("\nPlayer 2: ")
         self.filegametrace.write("HUMAN" if self.pO == self.HUMAN else "AI")
         self.filegametrace.write(F" d={self.dO} a=" + "False" if self.a == self.MINIMAX else ("True"))
-        self.filegametrace.write(" e1(regular)" if self.using_e1 else " e2(defensive)\n")#TO DO
+        self.filegametrace.write(" e1(regular)" if self.eO == self.E1 else " e2(defensive)\n")#TO DO
 
     def output_5(self,x,y,eval_time):
         self.filegametrace.write("\nPlayer " + self.player_turn +  " plays " + index2letter(x) + str(y) + "\n")
@@ -101,7 +101,7 @@ class Game:
         self.filegametrace.write("\n")
         for no_states in self.evaluated_states:
             self.filegametrace.write("\t %i \t" %no_states)
-            avg_depth = sum((i+1)*self.evaluated_states[i] for i in range(max_depth))/self.visited_states
+        avg_depth = sum((i+1)*self.evaluated_states[i] for i in range(max_depth))/self.visited_states
         self.filegametrace.write("\nAverage depth: %.3f\n " %avg_depth)
         # TODO: average recursion depth
 
@@ -190,16 +190,16 @@ class Game:
         if self.result != None:
             if self.result == 'X':
                 print('The winner is X!')
-                # self.filegametrace.write('The winner is X!\n\n')
-                # self.output6()
+                self.filegametrace.write('The winner is X!\n\n')
+                self.output6()
             elif self.result == 'O':
                 print('The winner is O!')
-                # self.filegametrace.write('The winner is O!\n\n')
-                # self.output6()
+                self.filegametrace.write('The winner is O!\n\n')
+                self.output6()
             elif self.result == '.':
                 print("It's a tie!")
-                # self.filegametrace.write("It's a tie!\n\n")
-                # self.output6()
+                self.filegametrace.write("It's a tie!\n\n")
+                self.output6()
             self.initialize_game()
         return self.result
 
