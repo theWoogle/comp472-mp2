@@ -44,8 +44,9 @@ class Game:
         self.eX = self.E1
         self.eO = self.E2
 
-        self.visited_states = 0
         self.average_rec_depth = 0
+        self.round_count = 0
+        self.total_time = 0
 
         if(askInputs):
             self.n = int(input('Size of the board:'))
@@ -60,7 +61,8 @@ class Game:
         
         self.current_state = [['.' for i in range(self.n)]for j in range(self.n)] # list of n lists with n points
         self.b_pos = [tuple()] * self.b
-        self.evaluated_states = [0] * max(self.dX, self.dO)
+        self.evaluated_states = {}
+        self.evaluated_states_prior = {}
         
         for i, b in enumerate(self.b_pos):
             print('Enter the coordinate for the block ',i)
@@ -80,6 +82,7 @@ class Game:
         self.filegametrace.write("n="+str(self.n)+" b="+str(self.b)+" s="+str(self.s)+" t="+str(self.t))
 
         self.filegametrace.write("\nblocs="+str(self.b_pos))
+        self.drawboard_onfile()
 
         self.filegametrace.write("\n\nPlayer 1: ")
         self.filegametrace.write("HUMAN" if self.pX == self.HUMAN else "AI")
@@ -92,21 +95,30 @@ class Game:
 
     def output_5(self,x,y,eval_time):
         self.filegametrace.write("\nPlayer " + self.player_turn +  " plays " + index2letter(x) + str(y) + "\n")
+        self.drawboard_onfile()
         self.filegametrace.write("Evaluation time: %.7fs \n" %eval_time)
-        self.filegametrace.write("Visited states: %i \n" %self.visited_states)
-        self.filegametrace.write("States evaluated per depth: \n")
+        self.total_time += eval_time
+
+        visited_states = dict(self.evaluated_states)
+
+        for key in self.evaluated_states_prior:
+            visited_states[key] = (self.evaluated_states[key]-self.evaluated_states_prior[key])
+        visited_states = {x:y for x,y in visited_states.items() if y!=0} # remove 0s
+
+        states_per_round = sum(visited_states[i] for i in visited_states)
+        self.filegametrace.write("Visited states: %i \n" %(states_per_round))
         
-        max_depth = self.dX if self.player_turn == 'X' else self.dO
-        for i in range(max_depth):
-            self.filegametrace.write("\t depth %i" %(i+1)) #ignore depth 0
+        self.filegametrace.write("States evaluated per depth: %s \n"%visited_states)
 
-        self.filegametrace.write("\n")
-        for no_states in self.evaluated_states:
-            self.filegametrace.write("\t %i \t" %no_states)
+        avg_depth = 0
+        if states_per_round != 0:
+            for key in visited_states:
+                avg_depth += visited_states[key] * key
+            avg_depth = avg_depth/states_per_round
 
-        avg_depth = sum((i+1)*self.evaluated_states[i] for i in range(max_depth))/self.visited_states
         self.filegametrace.write("\nAverage depth: %.3f\n " %avg_depth)
         # TODO: average recursion depth
+        self.evaluated_states_prior = dict(self.evaluated_states)
 
 
     def drawboard_onfile(self):
@@ -125,13 +137,20 @@ class Game:
             self.filegametrace.write("\n")
         self.filegametrace.write("\n")
 
-    def output6(self):
-        self.filegametrace.write(F'6(b)i   Average evaluation time:\n')
-        self.filegametrace.write(F'6(b)ii  Total heuristic evaluations:\n')
-        self.filegametrace.write(F'6(b)iii Evaluations by depth:\n')
-        self.filegametrace.write(F'6(b)iv  Average evaluation depth:\n')
-        self.filegametrace.write(F'6(b)v   Average recursion depth:\n')
-        self.filegametrace.write(F'6(b)vi  Total moves:{self.numMoves}')
+    def output_6(self):
+        avg_eval_time = self.total_time/self.round_count
+        self.filegametrace.write(F'6(b)i   Average evaluation time: {avg_eval_time} \n')
+        self.filegametrace.write(F'6(b)ii  Total heuristic evaluations: {sum(self.evaluated_states.values())} \n')
+        self.filegametrace.write(F'6(b)iii Evaluations by depth: {self.evaluated_states} \n')
+        avg_depth = 0
+        for key in self.evaluated_states:
+            avg_depth += self.evaluated_states[key] * key
+        avg_depth = avg_depth/sum(self.evaluated_states.values())
+
+        self.filegametrace.write(F'6(b)iv  Average evaluation depth: {avg_depth}\n')
+        # self.filegametrace.write(F'6(b)v   Average recursion depth:\n')
+        self.filegametrace.write(F'6(b)vi  Total moves: {self.round_count}')
+        return avg_eval_time, sum(self.evaluated_states.values()), self.evaluated_states, avg_depth, self.round_count
 
     def draw_board(self):
         print()
@@ -194,15 +213,15 @@ class Game:
             if self.result == 'X':
                 print('The winner is X!')
                 self.filegametrace.write('The winner is X!\n\n')
-                self.output6()
+                self.output_6()
             elif self.result == 'O':
                 print('The winner is O!')
                 self.filegametrace.write('The winner is O!\n\n')
-                self.output6()
+                self.output_6()
             elif self.result == '.':
                 print("It's a tie!")
                 self.filegametrace.write("It's a tie!\n\n")
-                self.output6()
+                self.output_6()
             self.initialize_game()
         return self.result
 
@@ -259,55 +278,6 @@ class Game:
                             x_win += 1
         return (o_win - x_win)
 
-    # winning path: empty path of size s around current tile
-    # winning path empty: 1 point
-    # wining path any symbol: 10 points
-    # winning path equal amount of symbols: 0 points
-    # winning path my>opponent and enough blanks to win: 50 points
-    # winning path opponent s-1 symbols: 100 points
-    # winning path s-1 own symbols: 200 points
-    # return sum of points per path in current tile
-
-    # or:
-    # with x_s1 = nb of lines with (s-1)Xs and at least 1 blank
-    # x_s2 = nb of lines with (s-2)Xs and  at least two blanks
-    # ...
-    # similar for O
-    # def e2(self):
-    #     totalpts_tile=0
-    #     for i in range(0,self.n):
-    #         for j in range(0,self.n):
-    #             ## get line of length s for current tile
-    #             # horizontal right
-    #             hor = [self.current_state[i][x] for x in range(j,j+self.s) if (self.s+j)<=self.n]
-    #             # vertical down
-    #             vert = [self.current_state[y][j] for y in range(i,i+self.s) if (self.s+i)<=self.n]
-    #             # diagonal right down
-    #             diagr = [self.current_state[i+d][j+d] for d in range(0,self.s) if ((i+self.s) <= self.n and (j+self.s) <= self.n)]
-    #             # diagonal left down
-    #             diagl = [self.current_state[i+d][j-d] for d in range(0,self.s) if ((i+self.s) <= self.n and (j-self.s) >= -1)]
-    #             lines = [hor,vert,diagr, diagl]
-    #             for line in lines:
-    #                 # if any(tile == '#' for tile in line):
-    #                 #     break
-    #                 if all(tile == '.' for tile in line):# winning path empty: 1 point
-    #                     totalpts_tile+=1
-    #                 elif not(all(tile == '.' for tile in line)):
-    #                     # wining path any symbol: 10 points
-    #                     if (line.count('X') == 1 and line.count('O') == 0) or (line.count('O') == 1 and line.count('X') == 0):
-    #                         totalpts_tile+=10
-    #                     # winning path equal amount of symbols: 0 points
-    #                     if  line.count('X') == line.count('O'):
-    #                         totalpts_tile+=0
-    #                     # winning path my>opponent and enough blanks to win: 50 points
-    #                     if line.count('X') > 2 and line.count('O')==0:
-    #                         totalpts_tile += 50
-    #                     # winning path opponent s-1 symbols: 100 points
-    #                     if line.count('O') == (self.s -1) and line.count('X')==0:
-    #                         totalpts_tile+=100
-    #                     if line.count('X') == (self.s -1) and line.count('O')==0:
-    #                         totalpts_tile+=200
-    #     return totalpts_tile
 
     #Assigns a positive value to every n-in-a-row the player has
     #A negative value to every n-in-a-row the opponent has
@@ -343,11 +313,7 @@ class Game:
 
     def minimax(self, depth=0, max=False):
         # Minimizing for 'X' and maximizing for 'O'
-        # Possible values are:
-        # -INTMAX - win for 'X'
-        # 0  - a tie
-        # INTMAX  - loss for 'X'
-        # We're initially setting it to 2 or -2 as worse than the worst case:
+        # We're initially setting it to INTMAX or -INTMAX as worse than the worst case:
         value = INTMAX+1
         if max:
             value = -INTMAX-1
@@ -363,6 +329,10 @@ class Game:
         elif result == '.':
             return (0, x, y)
         if depth >= (self.dX if self.player_turn == 'X' else self.dO):
+            if depth + self.round_count - 1 in self.evaluated_states:
+                self.evaluated_states[depth + self.round_count - 1] += 1
+            else:
+                self.evaluated_states[depth + self.round_count - 1] = 1
             if self.player_turn == 'X' and self.eX == self.E1 or self.player_turn == 'O' and self.eO == self.E1:
                 return(self.e1(), x, y)
             elif self.player_turn == 'X' and self.eX == self.E2 or self.player_turn == 'O' and self.eO == self.E2:
@@ -386,16 +356,10 @@ class Game:
                             x = i
                             y = j
                     self.current_state[i][j] = '.'
-                    self.evaluated_states[depth] += 1
         return (value, x, y)
 
     def alphabeta(self, depth = 0, alpha=-INTMAX, beta=INTMAX, max=False):
         # Minimizing for 'X' and maximizing for 'O'
-        # Possible values are:
-        # -1 - win for 'X'
-        # 0  - a tie
-        # 1  - loss for 'X'
-        # We're initially setting it to 2 or -2 as worse than the worst case:
         value = INTMAX
         if max:
             value = -INTMAX
@@ -409,7 +373,10 @@ class Game:
         elif result == '.':
             return (0, x, y)
         if depth >= (self.dX if self.player_turn == 'X' else self.dO):
-            self.visited_states += 1
+            if depth + self.round_count - 1 in self.evaluated_states:
+                self.evaluated_states[depth + self.round_count - 1] += 1
+            else:
+                self.evaluated_states[depth + self.round_count - 1] = 1
             if self.player_turn == 'X' and self.eX == self.E1 or self.player_turn == 'O' and self.eO == self.E1:
                 return(self.e1(), x, y)
             elif self.player_turn == 'X' and self.eX == self.E2 or self.player_turn == 'O' and self.eO == self.E2:
@@ -455,9 +422,9 @@ class Game:
         self.output1_4()
         while True:
             self.draw_board()
-            self.drawboard_onfile()
             if self.check_end():
                 return
+            self.round_count += 1
             start = time.time()
             values = [] 
             for a in range(0,self.n):
@@ -467,7 +434,6 @@ class Game:
                         values.append(self.e2())
                         self.current_state[a][b] = '.'
             print(*values)
-            self.visited_states = 0
             self.average_rec_depth = 0
             if algo == self.MINIMAX:
                 if self.player_turn == 'X':
@@ -492,15 +458,14 @@ class Game:
                     self.check_end(wrong_move=True)
                 # print(F'Player {self.player_turn} under AI control plays: x = {x}, y = {y}')
                 print(F'Player {self.player_turn} under AI control plays: {string.ascii_uppercase[x]}{y}')
-                # self.numMoves+=1
                 # self.filegametrace.write(F'Player {self.player_turn} under AI control plays: {string.ascii_uppercase[x]}{y}\n\n')
                 # self.filegametrace.write(F'i\tEvaluation time: {round(end - start, 7)}s\n')
                 # self.filegametrace.write(F'ii\tHeuristic evaluations:\n')
                 # self.filegametrace.write(F'iii\tEvaluations by depth:\n')
                 # self.filegametrace.write(F'iv\tAverage evaluation depth:\n')
                 # self.filegametrace.write(F'v\tAverage recursion depth:\n\n')
-            self.output_5(x,y,eval_time)
             self.current_state[x][y] = self.player_turn
+            self.output_5(x,y,eval_time)
             self.switch_player()
 
 
@@ -508,7 +473,7 @@ def main():
     g = Game(recommend=True)
     print(index2letter(0))
     # g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI)
-    g.play()
+    g.play(algo=Game.ALPHABETA)
 
 if __name__ == "__main__":
     main()
