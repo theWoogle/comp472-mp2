@@ -72,6 +72,7 @@ class Game:
         # Player X always plays first
         self.player_turn = 'X'
         self.filegametrace = open(F"gameTrace-{self.n}{self.b}{self.s}{self.t}.txt", "a")
+        self.scoreb = open("scoreboard.txt","a")
         self.numMoves=0
         self.using_e1=False
 
@@ -101,10 +102,56 @@ class Game:
         self.filegametrace.write("\n")
         for no_states in self.evaluated_states:
             self.filegametrace.write("\t %i \t" %no_states)
-        avg_depth = sum((i+1)*self.evaluated_states[i] for i in range(max_depth))/self.visited_states
-        self.filegametrace.write("\nAverage depth: %.3f\n " %avg_depth)
+        # avg_depth = sum((i+1)*self.evaluated_states[i] for i in range(max_depth))/self.visited_states
+        # self.filegametrace.write("\nAverage depth: %.3f\n " %avg_depth)
         # TODO: average recursion depth
 
+    def scoreboard(self):
+        self.scoreb.write("n=" + str(self.n) + " b=" + str(self.b) + " s=" + str(self.s) + " t=" + str(self.t))
+        self.scoreb.write("\n\nPlayer 1: ")
+        self.scoreb.write(F" d={self.dX} a=" + "False" if self.a == self.MINIMAX else (F" d={self.dX} a=" + "True"))
+        self.scoreb.write("\nPlayer 2: ")
+        self.scoreb.write(F" d={self.dO} a=" + "False" if self.a == self.MINIMAX else (F" d={self.dX} a=" + "True"))
+        self.scoreb.write(F"\n\n{2*self.r} games")
+        self.scoreb.write(F"\n\nTotal wins for heuristic e1: {self.cntwin_e1} ({round((100*(self.cntwin_e1/2*self.r)),1)}) (regular)")
+        self.scoreb.write(F"\nTotal wins for heuristic e2: {self.cntwin_e2} ({round((100*(self.cntwin_e1/2*self.r)),1)}) (defensive)")
+        self.scoreb.write("\n\n\ni   Average evaluation time:")
+        self.scoreb.write("\nii  Total heuristic evaluations:")
+        self.scoreb.write("\niii Evaluations by depth:")
+        self.scoreb.write("\niv  Average evaluation depth:")
+        self.scoreb.write("\nv   Average recursion depth:")
+        self.scoreb.write("\nvi  Average moves per game:")
+
+
+    def playseries(self,r,n,b,s,t):
+        self.n = n
+        self.b = b
+        self.s = s
+        self.t = t
+        self.r = r
+        self.eX = self.E1
+        self.eO = self.E2
+        self.pO = self.AI
+        self.pX = self.AI
+        self.cntwin_e1=0
+        self.cntwin_e2=0
+        for j in range(2):
+            if(j==1):
+                self.eX = self.E2
+                self.eO = self.E1
+            for i in range(self.r):
+                rslt = self.play(algo=Game.ALPHABETA)
+                if(j==0):
+                    if(rslt=='X'):
+                        self.cntwin_e1+=1
+                    elif(rslt=='O'):
+                        self.cntwin_e2+=1
+                if (j == 1):
+                    if (rslt == 'X'):
+                        self.cntwin_e2 += 1
+                    elif (rslt == 'O'):
+                        self.cntwin_e1 += 1
+        self.scoreboard()
 
     def drawboard_onfile(self):
         self.filegametrace.write("\n  ")
@@ -454,7 +501,7 @@ class Game:
             self.draw_board()
             self.drawboard_onfile()
             if self.check_end():
-                return
+                return self.result
             start = time.time()
             values = [] 
             for a in range(0,self.n):
@@ -503,9 +550,10 @@ class Game:
 
 def main():
     g = Game(recommend=True)
-    print(index2letter(0))
+    # print(index2letter(0))
     # g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI)
-    g.play()
+    # g.play()
+    g.playseries(2,4,0,4,3)
 
 if __name__ == "__main__":
     main()
