@@ -400,9 +400,9 @@ class Game:
         y = None
         result = self.is_end()
         if result == 'X':
-            return (-1, x, y)
+            return (-INTMAX, x, y)
         elif result == 'O':
-            return (1, x, y)
+            return (INTMAX, x, y)
         elif result == '.':
             return (0, x, y)
         if depth >= (self.dX if self.player_turn == 'X' else self.dO):
