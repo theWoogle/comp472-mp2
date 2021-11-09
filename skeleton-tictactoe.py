@@ -85,14 +85,14 @@ class Game:
         self.filegametrace.write("HUMAN" if self.pX == self.HUMAN else "AI")
         self.filegametrace.write(F" d={self.dX} a=" + "False" if self.a == self.MINIMAX else ("True"))
         self.filegametrace.write(" e1(regular)" if self.eX == self.E1 else " e2(defensive)\n")#TO DO
-        self.filegametrace.write("Player 2: ")
+        self.filegametrace.write("\nPlayer 2: ")
         self.filegametrace.write("HUMAN" if self.pO == self.HUMAN else "AI")
         self.filegametrace.write(F" d={self.dO} a=" + "False" if self.a == self.MINIMAX else ("True"))
         self.filegametrace.write(" e1(regular)" if self.eO == self.E1 else " e2(defensive)\n")#TO DO
 
     def output_5(self,x,y,eval_time):
         self.filegametrace.write("Player" + self.player_turn +  "plays" + index2letter(x) + str(y) + "\n")
-        self.drawboard_onfile()
+        # self.drawboard_onfile()
         self.filegametrace.write("Evaluation time: %is \n" %eval_time)
         self.filegametrace.write("Visited states: %i \n" %self.visited_states)
         self.filegametrace.write("States evaluated per depth: \n")
@@ -190,16 +190,16 @@ class Game:
         if self.result != None:
             if self.result == 'X':
                 print('The winner is X!')
-                # self.filegametrace.write('The winner is X!\n\n')
-                # self.output6()
+                self.filegametrace.write('The winner is X!\n\n')
+                self.output6()
             elif self.result == 'O':
                 print('The winner is O!')
-                # self.filegametrace.write('The winner is O!\n\n')
-                # self.output6()
+                self.filegametrace.write('The winner is O!\n\n')
+                self.output6()
             elif self.result == '.':
                 print("It's a tie!")
-                # self.filegametrace.write("It's a tie!\n\n")
-                # self.output6()
+                self.filegametrace.write("It's a tie!\n\n")
+                self.output6()
             self.initialize_game()
         return self.result
 
@@ -445,7 +445,7 @@ class Game:
         self.output1_4()
         while True:
             self.draw_board()
-            # self.drawboard_onfile()
+            self.drawboard_onfile()
             if self.check_end():
                 return
             start = time.time()
