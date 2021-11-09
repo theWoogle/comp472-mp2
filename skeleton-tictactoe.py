@@ -37,7 +37,7 @@ class Game:
         self.dX = 4
         self.dO = 4
         self.t  = 3
-        self.a  = self.MINIMAX
+        self.a  = self.ALPHABETA
         self.pO = self.AI
         # self.pX = self.HUMAN
         self.pX = self.AI
@@ -83,11 +83,11 @@ class Game:
 
         self.filegametrace.write("\n\nPlayer 1: ")
         self.filegametrace.write("HUMAN" if self.pX == self.HUMAN else "AI")
-        self.filegametrace.write(F" d={self.dX} a=" + "False" if self.a == self.MINIMAX else ("True"))
+        self.filegametrace.write(F" d={self.dX} a=" + "False" if self.a == self.MINIMAX else (F" d={self.dX} a=" +"True"))
         self.filegametrace.write(" e1(regular)" if self.eX == self.E1 else " e2(defensive)\n")#TO DO
         self.filegametrace.write("\nPlayer 2: ")
         self.filegametrace.write("HUMAN" if self.pO == self.HUMAN else "AI")
-        self.filegametrace.write(F" d={self.dO} a=" + "False" if self.a == self.MINIMAX else ("True"))
+        self.filegametrace.write(F" d={self.dO} a=" + "False" if self.a == self.MINIMAX else (F" d={self.dX} a=" +"True"))
         self.filegametrace.write(" e1(regular)" if self.eO == self.E1 else " e2(defensive)\n")#TO DO
 
     def output_5(self,x,y,eval_time):
@@ -505,7 +505,7 @@ def main():
     g = Game(recommend=True)
     print(index2letter(0))
     # g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI)
-    g.play(algo=Game.MINIMAX)
+    g.play()
 
 if __name__ == "__main__":
     main()
