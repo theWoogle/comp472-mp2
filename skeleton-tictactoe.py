@@ -19,6 +19,8 @@ class Game:
     ALPHABETA = 1
     HUMAN = 2
     AI = 3
+    E1 = 4
+    E2 = 5
 
 
     def __init__(self, recommend = True):
@@ -39,6 +41,8 @@ class Game:
         self.pO = self.AI
         # self.pX = self.HUMAN
         self.pX = self.AI
+        self.eX = self.E1
+        self.eO = self.E2
 
         self.visited_states = 0
         self.average_rec_depth = 0
@@ -353,7 +357,10 @@ class Game:
             return (0, x, y)
         if depth >= (self.dX if self.player_turn == 'X' else self.dO):
             self.visited_states += 1
-            return (self.e2(), x, y)
+            if self.player_turn == 'X' and self.eX == self.E1 or self.player_turn == 'O' and self.eO == self.E1:
+                return(self.e1(), x, y)
+            elif self.player_turn == 'X' and self.eX == self.E2 or self.player_turn == 'O' and self.eO == self.E2:
+                return(self.e2(), x, y)
 
         for i in range(0, self.n):
             for j in range(0, self.n):
