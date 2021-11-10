@@ -47,6 +47,7 @@ class Game:
         self.average_rec_depth = 0
         self.round_count = 0
         self.total_time = 0
+        self.total_ard = 0
 
         if(askInputs):
             self.n = int(input('Size of the board:'))
@@ -118,7 +119,7 @@ class Game:
             avg_depth = avg_depth/states_per_round
 
         self.filegametrace.write("\nAverage depth: %.3f\n " %avg_depth)
-        # TODO: average recursion depth
+        self.filegametrace.write("\nAverage recursion depth: %.3f\n " %self.avg_rec_depth(visited_states))
         self.evaluated_states_prior = dict(self.evaluated_states)
 
     def scoreboard(self):
@@ -195,9 +196,24 @@ class Game:
         avg_depth = avg_depth/sum(self.evaluated_states.values())
 
         self.filegametrace.write(F'6(b)iv  Average evaluation depth: {avg_depth}\n')
-        # self.filegametrace.write(F'6(b)v   Average recursion depth:\n')
+        self.filegametrace.write(F'6(b)v   Average recursion depth: {self.total_ard/self.round_count}\n')
         self.filegametrace.write(F'6(b)vi  Total moves: {self.round_count}')
         return avg_eval_time, sum(self.evaluated_states.values()), self.evaluated_states, avg_depth, self.round_count
+
+    def avg_rec_depth(self, eval_states):
+        max_depth = self.dX if self.player_turn == 'X' else self.dO # consider root = 0
+        ard = 0
+        for i in range(len(self.parent_node)):
+            if self.parent_node[-i-1] != 0:
+                if(max_depth-i+self.round_count in eval_states):
+                    ard = ((max_depth-i) * eval_states[max_depth-i+self.round_count] + ard)/self.parent_node[-i-1]
+                else:
+                    ard = ard/self.parent_node[-i-1]
+        if ard != 0: 
+            ard = int(ard+self.round_count) # add root-depth
+        self.total_ard += ard
+        return ard
+
 
     def draw_board(self):
         print()
@@ -385,6 +401,9 @@ class Game:
             elif self.player_turn == 'X' and self.eX == self.E2 or self.player_turn == 'O' and self.eO == self.E2:
                 return(self.e2(), x, y)
 
+        self.parent_node[depth] += 1 # no value evaluated --> parent
+
+
         for i in range(0, self.n):
             for j in range(0, self.n):
                 if self.current_state[i][j] == '.':
@@ -429,6 +448,8 @@ class Game:
             elif self.player_turn == 'X' and self.eX == self.E2 or self.player_turn == 'O' and self.eO == self.E2:
                 return(self.e2(), x, y)
 
+        self.parent_node[depth] += 1 # no value evaluated
+
         for i in range(0, self.n):
             for j in range(0, self.n):
                 if self.current_state[i][j] == '.':
@@ -472,6 +493,7 @@ class Game:
             if self.check_end():
                 return
             self.round_count += 1
+            self.parent_node = [0] * (self.dX if self.player_turn == 'X' else self.dO)
             start = time.time()
             values = [] 
             for a in range(0,self.n):
