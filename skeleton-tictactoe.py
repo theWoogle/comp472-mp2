@@ -101,11 +101,11 @@ class Game:
 
         self.filegametrace.write("\n\nPlayer 1: ")
         self.filegametrace.write("HUMAN" if self.pX == self.HUMAN else "AI")
-        self.filegametrace.write(F" d={self.dX} a=" + "False" if self.a1 == self.MINIMAX else (F" d={self.dX} a=" +"True"))
+        self.filegametrace.write(F" d={self.dX} a=False" if self.a1 == self.MINIMAX else (F" d={self.dX} a=True"))
         self.filegametrace.write(" e1(regular)" if self.eX == self.E1 else " e2(defensive)\n")#TO DO
         self.filegametrace.write("\nPlayer 2: ")
         self.filegametrace.write("HUMAN" if self.pO == self.HUMAN else "AI")
-        self.filegametrace.write(F" d={self.dO} a=" + "False" if self.a2 == self.MINIMAX else (F" d={self.dX} a=" +"True"))
+        self.filegametrace.write(F" d={self.dO} a=False" if self.a2 == self.MINIMAX else (F" d={self.dX} a=True"))
         self.filegametrace.write(" e1(regular)" if self.eO == self.E1 else " e2(defensive)\n")#TO DO
 
     def output_5(self,x,y,eval_time):
@@ -138,12 +138,12 @@ class Game:
     def scoreboard(self):
         self.scoreb.write("n=" + str(self.n) + " b=" + str(self.b) + " s=" + str(self.s) + " t=" + str(self.t))
         self.scoreb.write("\n\nPlayer 1: ")
-        self.scoreb.write(F" d={self.dX} a=" + "False" if self.a1 == self.MINIMAX else (F" d={self.dX} a=" + "True"))
+        self.scoreb.write(F" d={self.dX} a=False" if self.a1 == self.MINIMAX else (F" d={self.dX} a=True"))
         self.scoreb.write("\nPlayer 2: ")
-        self.scoreb.write(F" d={self.dO} a=" + "False" if self.a2 == self.MINIMAX else (F" d={self.dX} a=" + "True"))
+        self.scoreb.write(F" d={self.dO} a=False" if self.a2 == self.MINIMAX else (F" d={self.dX} a=True"))
         self.scoreb.write(F"\n\n{2*self.r} games")
-        self.scoreb.write(F"\n\nTotal wins for heuristic e1: {self.cntwin_e1} ({round((100*(self.cntwin_e1/2*self.r)),1)}) (regular)")
-        self.scoreb.write(F"\nTotal wins for heuristic e2: {self.cntwin_e2} ({round((100*(self.cntwin_e1/2*self.r)),1)}) (defensive)")
+        self.scoreb.write(F"\n\nTotal wins for heuristic e1: {self.cntwin_e1} ({round((100*(self.cntwin_e1/(2*self.r))),1)}) (regular)")
+        self.scoreb.write(F"\nTotal wins for heuristic e2: {self.cntwin_e2} ({round((100*(self.cntwin_e1/(2*self.r))),1)}) (defensive)")
 
         self.series_Evaluations_depth = dict(collections.OrderedDict(sorted(self.series_Evaluations_depth.items())))
         self.scoreb.write(F"\n\n\ni   Average evaluation time: {sum(self.series_evalt)/len(self.series_evalt)}")
@@ -154,11 +154,7 @@ class Game:
         self.scoreb.write(F"\nvi  Average moves per game: {sum(self.series_avgmoves)/len(self.series_avgmoves)}")
 
 
-    def playseries(self,r,n,b,s,t, *bloc_tuples):
-        self.n = n
-        self.b = b
-        self.s = s
-        self.t = t
+    def playseries(self, r):
         self.r = r
         self.eX = self.E1
         self.eO = self.E2
@@ -166,12 +162,13 @@ class Game:
         self.pX = self.AI
         self.cntwin_e1=0
         self.cntwin_e2=0
+
         for j in range(2):
             if(j==1):
                 self.eX = self.E2
                 self.eO = self.E1
             for i in range(self.r):
-                rslt = self.play(algo=Game.ALPHABETA)
+                rslt = self.play()
                 if(j==0):
                     if(rslt=='X'):
                         self.cntwin_e1+=1
@@ -558,14 +555,15 @@ class Game:
 
 
 def main():
-    # g = Game(recommend=True)
     # print(index2letter(0))
     # g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI)
     # g.play()
-    # g.playseries(2,4,0,4,3)
+    # g.playseries(2,4,0,3,3)
     # g2 = Game(recommend=False, n=4, b=4, s=3, t=5, d1=6, d2=6, a1=False, a2=False, [(0,0),(0,4),(4,0),(4,4)] )
-    g2 = Game(False, 4, 4, 3, 5, 6, 6, False, False, [(0,0),(0,3),(3,0),(3,3)] )
-    g2.play()
+    # g2 = Game(False, 4, 4, 3, 5, 6, 6, False, False, [(0,0),(0,3),(3,0),(3,3)] )
+    # g2.play()
+    g = Game(False, 4, 4, 3, 5, 6, 6, False, False, [(0,0),(0,3),(3,0),(3,3)] )
+    g.playseries(2)
 
 if __name__ == "__main__":
     main()
