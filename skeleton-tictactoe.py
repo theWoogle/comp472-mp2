@@ -31,21 +31,22 @@ class Game:
     series_ard=[]
     series_avgmoves=[]
 
-    def __init__(self, recommend = True):
-        self.initialize_game()
+    def __init__(self, recommend = True, n=4, b=0, s=4, dX=4, dO = 4, t=3, a1=False, a2=False, *bloc_positions):
+        self.initialize_game(n,b,s,dX,dO,t,a1,a2,*bloc_positions)
         self.recommend = recommend
 
-    def initialize_game(self):
+    def initialize_game(self, n,b,s,dX,dO,t,a1,a2,*bloc_positions):
         
         askInputs=False
         # Standard values for testing
-        self.n = 4
-        self.b = 0
-        self.s = 4
-        self.dX = 4
-        self.dO = 4
-        self.t  = 3
-        self.a  = self.ALPHABETA
+        self.n = n
+        self.b = b
+        self.s = s
+        self.dX = dX
+        self.dO = dO
+        self.t  = t
+        self.a1  = self.ALPHABETA if a1 == True else self.MINIMAX
+        self.a2  = self.ALPHABETA if a2 == True else self.MINIMAX
         self.pO = self.AI
         # self.pX = self.HUMAN
         self.pX = self.AI
@@ -56,8 +57,6 @@ class Game:
         self.round_count = 0
         self.total_time = 0
         self.total_ard = 0
-
-
 
         if(askInputs):
             self.n = int(input('Size of the board:'))
@@ -74,6 +73,10 @@ class Game:
         self.b_pos = [tuple()] * self.b
         self.evaluated_states = {}
         self.evaluated_states_prior = {}
+
+        if(b>0):
+            for bloc in range(b):
+                self.b_pos[bloc] = bloc_positions[bloc]
         
         for i, b in enumerate(self.b_pos):
             print('Enter the coordinate for the block ',i)
@@ -97,11 +100,11 @@ class Game:
 
         self.filegametrace.write("\n\nPlayer 1: ")
         self.filegametrace.write("HUMAN" if self.pX == self.HUMAN else "AI")
-        self.filegametrace.write(F" d={self.dX} a=" + "False" if self.a == self.MINIMAX else (F" d={self.dX} a=" +"True"))
+        self.filegametrace.write(F" d={self.dX} a=" + "False" if self.a1 == self.MINIMAX else (F" d={self.dX} a=" +"True"))
         self.filegametrace.write(" e1(regular)" if self.eX == self.E1 else " e2(defensive)\n")#TO DO
         self.filegametrace.write("\nPlayer 2: ")
         self.filegametrace.write("HUMAN" if self.pO == self.HUMAN else "AI")
-        self.filegametrace.write(F" d={self.dO} a=" + "False" if self.a == self.MINIMAX else (F" d={self.dX} a=" +"True"))
+        self.filegametrace.write(F" d={self.dO} a=" + "False" if self.a2 == self.MINIMAX else (F" d={self.dX} a=" +"True"))
         self.filegametrace.write(" e1(regular)" if self.eO == self.E1 else " e2(defensive)\n")#TO DO
 
     def output_5(self,x,y,eval_time):
@@ -134,9 +137,9 @@ class Game:
     def scoreboard(self):
         self.scoreb.write("n=" + str(self.n) + " b=" + str(self.b) + " s=" + str(self.s) + " t=" + str(self.t))
         self.scoreb.write("\n\nPlayer 1: ")
-        self.scoreb.write(F" d={self.dX} a=" + "False" if self.a == self.MINIMAX else (F" d={self.dX} a=" + "True"))
+        self.scoreb.write(F" d={self.dX} a=" + "False" if self.a1 == self.MINIMAX else (F" d={self.dX} a=" + "True"))
         self.scoreb.write("\nPlayer 2: ")
-        self.scoreb.write(F" d={self.dO} a=" + "False" if self.a == self.MINIMAX else (F" d={self.dX} a=" + "True"))
+        self.scoreb.write(F" d={self.dO} a=" + "False" if self.a2 == self.MINIMAX else (F" d={self.dX} a=" + "True"))
         self.scoreb.write(F"\n\n{2*self.r} games")
         self.scoreb.write(F"\n\nTotal wins for heuristic e1: {self.cntwin_e1} ({round((100*(self.cntwin_e1/2*self.r)),1)}) (regular)")
         self.scoreb.write(F"\nTotal wins for heuristic e2: {self.cntwin_e2} ({round((100*(self.cntwin_e1/2*self.r)),1)}) (defensive)")
@@ -150,7 +153,7 @@ class Game:
         self.scoreb.write(F"\nvi  Average moves per game: {sum(self.series_avgmoves)/len(self.series_avgmoves)}")
 
 
-    def playseries(self,r,n,b,s,t):
+    def playseries(self,r,n,b,s,t, *bloc_tuples):
         self.n = n
         self.b = b
         self.s = s
@@ -305,7 +308,7 @@ class Game:
                 print("It's a tie!")
                 self.filegametrace.write("It's a tie!\n\n")
                 self.output_6()
-            self.initialize_game()
+            # self.initialize_game()
         return self.result
 
     def input_move(self):
@@ -403,7 +406,7 @@ class Game:
         x = None
         y = None
 
-        self.visited_states += 1
+        # self.visited_states += 1
         result = self.is_end()
         if result == 'X':
             return (-INTMAX, x, y)
@@ -524,16 +527,18 @@ class Game:
                         self.current_state[a][b] = '.'
             print(*values)
             self.average_rec_depth = 0
-            if algo == self.MINIMAX:
-                if self.player_turn == 'X':
-                    (_, x, y) = self.minimax(max=False)
+            is_max = False if self.player_turn == 'X' else True
+            if is_max: # O turn
+                if self.a2 == self.ALPHABETA:
+                    (m, x, y) = self.alphabeta(max=True)
                 else:
                     (_, x, y) = self.minimax(max=True)
-            else: # algo == self.ALPHABETA
-                if self.player_turn == 'X':
+            else:
+                if self.a1 == self.ALPHABETA:
                     (m, x, y) = self.alphabeta(max=False)
                 else:
-                    (m, x, y) = self.alphabeta(max=True)
+                    (_, x, y) = self.minimax(max=False)
+
             end = time.time()
             eval_time = round(end - start, 7)
             if (self.player_turn == 'X' and player_x == self.HUMAN) or (self.player_turn == 'O' and player_o == self.HUMAN):
@@ -559,6 +564,7 @@ def main():
     # g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI)
     # g.play()
     g.playseries(2,4,0,4,3)
+
     # g.play(algo=Game.ALPHABETA)
 
 if __name__ == "__main__":
