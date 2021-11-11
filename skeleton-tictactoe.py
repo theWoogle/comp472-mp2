@@ -2,6 +2,7 @@
 
 import time
 import string
+import collections
 
 # Helper functions
 def letter2index(letter: str):
@@ -22,6 +23,13 @@ class Game:
     E1 = 4
     E2 = 5
 
+    # series
+    series_evalt = []
+    series_totheuristic_eval=0
+    series_Evaluations_depth={}
+    series_avg_evald=[]
+    series_ard=[]
+    series_avgmoves=[]
 
     def __init__(self, recommend = True):
         self.initialize_game()
@@ -48,6 +56,8 @@ class Game:
         self.round_count = 0
         self.total_time = 0
         self.total_ard = 0
+
+
 
         if(askInputs):
             self.n = int(input('Size of the board:'))
@@ -76,12 +86,11 @@ class Game:
         self.player_turn = 'X'
         self.filegametrace = open(F"gameTrace-{self.n}{self.b}{self.s}{self.t}.txt", "a")
         self.scoreb = open("scoreboard.txt","a")
-        self.numMoves=0
-        self.using_e1=False
+
 
 
     def output1_4(self):
-        self.filegametrace.write("n="+str(self.n)+" b="+str(self.b)+" s="+str(self.s)+" t="+str(self.t))
+        self.filegametrace.write("\nn="+str(self.n)+" b="+str(self.b)+" s="+str(self.s)+" t="+str(self.t))
 
         self.filegametrace.write("\nblocs="+str(self.b_pos))
         self.drawboard_onfile()
@@ -131,12 +140,14 @@ class Game:
         self.scoreb.write(F"\n\n{2*self.r} games")
         self.scoreb.write(F"\n\nTotal wins for heuristic e1: {self.cntwin_e1} ({round((100*(self.cntwin_e1/2*self.r)),1)}) (regular)")
         self.scoreb.write(F"\nTotal wins for heuristic e2: {self.cntwin_e2} ({round((100*(self.cntwin_e1/2*self.r)),1)}) (defensive)")
-        self.scoreb.write("\n\n\ni   Average evaluation time:")
-        self.scoreb.write("\nii  Total heuristic evaluations:")
-        self.scoreb.write("\niii Evaluations by depth:")
-        self.scoreb.write("\niv  Average evaluation depth:")
-        self.scoreb.write("\nv   Average recursion depth:")
-        self.scoreb.write("\nvi  Average moves per game:")
+
+        self.series_Evaluations_depth = dict(collections.OrderedDict(sorted(self.series_Evaluations_depth.items())))
+        self.scoreb.write(F"\n\n\ni   Average evaluation time: {sum(self.series_evalt)/len(self.series_evalt)}")
+        self.scoreb.write(F"\nii  Total heuristic evaluations: {self.series_totheuristic_eval}")
+        self.scoreb.write(F"\niii Evaluations by depth: {self.series_Evaluations_depth}")
+        self.scoreb.write(F"\niv  Average evaluation depth: {sum(self.series_avg_evald)/len(self.series_avg_evald)}")
+        self.scoreb.write(F"\nv   Average recursion depth: {sum(self.series_ard)/len(self.series_ard)}")
+        self.scoreb.write(F"\nvi  Average moves per game: {sum(self.series_avgmoves)/len(self.series_avgmoves)}")
 
 
     def playseries(self,r,n,b,s,t):
@@ -198,6 +209,15 @@ class Game:
         self.filegametrace.write(F'6(b)iv  Average evaluation depth: {avg_depth}\n')
         self.filegametrace.write(F'6(b)v   Average recursion depth: {self.total_ard/self.round_count}\n')
         self.filegametrace.write(F'6(b)vi  Total moves: {self.round_count}')
+
+        self.series_evalt.append(avg_eval_time)
+        self.series_totheuristic_eval += sum(self.evaluated_states.values())
+        self.series_Evaluations_depth.update(self.evaluated_states)
+        self.series_avg_evald.append(avg_depth)
+        self.series_ard.append(self.total_ard/self.round_count)
+        self.series_avgmoves.append(self.round_count)
+
+
         return avg_eval_time, sum(self.evaluated_states.values()), self.evaluated_states, avg_depth, self.round_count
 
     def avg_rec_depth(self, eval_states):
@@ -491,7 +511,7 @@ class Game:
         while True:
             self.draw_board()
             if self.check_end():
-                return
+                return self.result
             self.round_count += 1
             self.parent_node = [0] * (self.dX if self.player_turn == 'X' else self.dO)
             start = time.time()
@@ -527,12 +547,7 @@ class Game:
                     self.check_end(wrong_move=True)
                 # print(F'Player {self.player_turn} under AI control plays: x = {x}, y = {y}')
                 print(F'Player {self.player_turn} under AI control plays: {string.ascii_uppercase[x]}{y}')
-                # self.filegametrace.write(F'Player {self.player_turn} under AI control plays: {string.ascii_uppercase[x]}{y}\n\n')
-                # self.filegametrace.write(F'i\tEvaluation time: {round(end - start, 7)}s\n')
-                # self.filegametrace.write(F'ii\tHeuristic evaluations:\n')
-                # self.filegametrace.write(F'iii\tEvaluations by depth:\n')
-                # self.filegametrace.write(F'iv\tAverage evaluation depth:\n')
-                # self.filegametrace.write(F'v\tAverage recursion depth:\n\n')
+
             self.current_state[x][y] = self.player_turn
             self.output_5(x,y,eval_time)
             self.switch_player()
@@ -544,7 +559,7 @@ def main():
     # g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI)
     # g.play()
     g.playseries(2,4,0,4,3)
-    g.play(algo=Game.ALPHABETA)
+    # g.play(algo=Game.ALPHABETA)
 
 if __name__ == "__main__":
     main()
