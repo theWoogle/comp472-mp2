@@ -31,11 +31,11 @@ class Game:
     series_ard=[]
     series_avgmoves=[]
 
-    def __init__(self, recommend = True, n=4, b=0, s=4, dX=4, dO = 4, t=3, a1=False, a2=False, *bloc_positions):
-        self.initialize_game(n,b,s,dX,dO,t,a1,a2,*bloc_positions)
+    def __init__(self, recommend = True, n=4, b=0, s=4, dX=4, dO = 4, t=3, a1=False, a2=False, *args):
+        self.initialize_game(n,b,s,dX,dO,t,a1,a2,*args)
         self.recommend = recommend
 
-    def initialize_game(self, n,b,s,dX,dO,t,a1,a2,*bloc_positions):
+    def initialize_game(self, n,b,s,dX,dO,t,a1,a2,*args):
         
         askInputs=False
         # Standard values for testing
@@ -74,16 +74,17 @@ class Game:
         self.evaluated_states = {}
         self.evaluated_states_prior = {}
 
-        if(b>0):
-            for bloc in range(b):
-                self.b_pos[bloc] = bloc_positions[bloc]
-        
-        for i, b in enumerate(self.b_pos):
-            print('Enter the coordinate for the block ',i)
-            px = int(input('enter the x coordinate: '))
-            py = int(input('enter the y coordinate: '))
-            self.b_pos[i] = (px,py) #can assume that input is valid
-            self.current_state[px][py] = '#'
+        self.b_pos = args[0]
+        for block in self.b_pos:
+            self.current_state[block[0]][block[1]] = '#'
+
+        if askInputs:
+            for i, b in enumerate(self.b_pos):
+                print('Enter the coordinate for the block ',i)
+                px = int(input('enter the x coordinate: '))
+                py = int(input('enter the y coordinate: '))
+                self.b_pos[i] = (px,py) #can assume that input is valid
+                self.current_state[px][py] = '#'
 
         # Player X always plays first
         self.player_turn = 'X'
@@ -503,9 +504,7 @@ class Game:
                             beta = value
         return (value, x, y)
 
-    def play(self,algo=None,player_x=None,player_o=None):
-        if algo == None:
-            algo = self.a
+    def play(self,player_x=None,player_o=None):
         if player_x == None:
             player_x = self.pX
         if player_o == None:
@@ -559,13 +558,14 @@ class Game:
 
 
 def main():
-    g = Game(recommend=True)
+    # g = Game(recommend=True)
     # print(index2letter(0))
     # g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI)
     # g.play()
-    g.playseries(2,4,0,4,3)
-
-    # g.play(algo=Game.ALPHABETA)
+    # g.playseries(2,4,0,4,3)
+    # g2 = Game(recommend=False, n=4, b=4, s=3, t=5, d1=6, d2=6, a1=False, a2=False, [(0,0),(0,4),(4,0),(4,4)] )
+    g2 = Game(False, 4, 4, 3, 5, 6, 6, False, False, [(0,0),(0,3),(3,0),(3,3)] )
+    g2.play()
 
 if __name__ == "__main__":
     main()
