@@ -404,9 +404,11 @@ class Game:
         x = None
         y = None
 
+        if (depth != 0) and (self.t - round((time.time() - self.start),7) < 0.05):
+            return(value,x,y) # return worst case if time is close
         # self.visited_states += 1
         result = self.is_end()
-        if result == 'X':
+        if result == 'X' :
             return (-INTMAX, x, y)
         elif result == 'O':
             return (INTMAX, x, y)
@@ -452,6 +454,10 @@ class Game:
             value = -INTMAX
         x = None
         y = None
+
+        if (depth != 0) and -(self.t - round((time.time() - self.start),7) < 0.05):
+            return(value,x,y) # return worst case if time is close
+
         result = self.is_end()
         if result == 'X':
             return (-INTMAX, x, y)
@@ -514,6 +520,7 @@ class Game:
             self.round_count += 1
             self.parent_node = [0] * (self.dX if self.player_turn == 'X' else self.dO)
             start = time.time()
+            self.start = start
             # values = [] 
             # for a in range(0,self.n):
             #     for b in range(0,self.n):
@@ -538,9 +545,13 @@ class Game:
                 else:
                     (_, x, y) = self.minimax(max=False)
                     # print(f'Minimax returns {x}{y}')
-
             end = time.time()
             eval_time = round(end - start, 7)
+
+            if x==None or y==None: # choose next empty tile if no results in time
+                x = next(self.current_state == '.')
+                y = next(self.current_state == '.')
+
             if (self.player_turn == 'X' and player_x == self.HUMAN) or (self.player_turn == 'O' and player_o == self.HUMAN):
                 if self.recommend:
                     print(F'Evaluation time: {eval_time}s')
@@ -565,15 +576,15 @@ def get_random_blocs(n,b):
 def main():
     seed(42)
     games = []
-    games.append(Game(False, 4, 4, 3, 5, 6, 6, False, False, [(0,0),(0,3),(3,0),(3,3)] ))
-    games.append(Game(False, 4, 4, 3, 6, 6, 1, True, True, get_random_blocs(4,4)))
-    games.append(Game(False, 5, 4, 4, 2, 6, 1, True, True, get_random_blocs(5,4)))
-    games.append(Game(False, 5, 4, 4, 6, 6, 5, True, True, get_random_blocs(5,4)))
-    games.append(Game(False, 8, 5, 5, 2, 6, 1, True, True, get_random_blocs(8,5)))
+    # games.append(Game(False, 4, 4, 3, 5, 6, 6, False, False, [(0,0),(0,3),(3,0),(3,3)] ))
+    # games.append(Game(False, 4, 4, 3, 6, 6, 1, True, True, get_random_blocs(4,4)))
+    # games.append(Game(False, 5, 4, 4, 2, 6, 1, True, True, get_random_blocs(5,4)))
+    # games.append(Game(False, 5, 4, 4, 6, 6, 5, True, True, get_random_blocs(5,4)))
+    # games.append(Game(False, 8, 5, 5, 2, 6, 1, True, True, get_random_blocs(8,5)))
     games.append(Game(False, 8, 5, 5, 2, 6, 5, True, True, get_random_blocs(8,5)))
     games.append(Game(False, 8, 6, 5, 2, 6, 1, True, True, get_random_blocs(8,5)))
     games.append(Game(False, 8, 6, 5, 6, 6, 5, True, True, get_random_blocs(8,5)))
-     
+
     for game in games:
         print('Playing Game')
         print("n="+str(game.n)+" b="+str(game.b)+" s="+str(game.s)+" t="+str(game.t))
