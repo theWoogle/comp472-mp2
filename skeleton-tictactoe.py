@@ -3,6 +3,8 @@
 import time
 import string
 import collections
+from itertools import product
+from random import sample, seed
 
 # Helper functions
 def letter2index(letter: str):
@@ -388,9 +390,7 @@ class Game:
                          ((i + self.s) <= self.n and (j - self.s) >= -1)]
                 lines = [hor, vert, diagr, diagl]
                 for line in lines:
-                    if self.player_turn == 'X':
                         points += 1*pow(10,line.count('X'))
-                    if self.player_turn == 'O':
                         points -= int(1.5*pow(10,line.count('O')))
         return(points)
 
@@ -514,26 +514,30 @@ class Game:
             self.round_count += 1
             self.parent_node = [0] * (self.dX if self.player_turn == 'X' else self.dO)
             start = time.time()
-            values = [] 
-            for a in range(0,self.n):
-                for b in range(0,self.n):
-                    if(self.current_state[a][b] == '.'):
-                        self.current_state[a][b] = self.player_turn
-                        values.append(self.e2())
-                        self.current_state[a][b] = '.'
-            print(*values)
+            # values = [] 
+            # for a in range(0,self.n):
+            #     for b in range(0,self.n):
+            #         if(self.current_state[a][b] == '.'):
+            #             self.current_state[a][b] = self.player_turn
+            #             values.append(self.e2())
+            #             self.current_state[a][b] = '.'
+            # print(*values)
             self.average_rec_depth = 0
             is_max = False if self.player_turn == 'X' else True
             if is_max: # O turn
                 if self.a2 == self.ALPHABETA:
                     (m, x, y) = self.alphabeta(max=True)
+                    # print(f'Alphabeta returns {x}{y}')
                 else:
                     (_, x, y) = self.minimax(max=True)
+                    # print(f'Minimax returns {x}{y}')
             else:
                 if self.a1 == self.ALPHABETA:
                     (m, x, y) = self.alphabeta(max=False)
+                    # print(f'Alphabeta returns {x}{y}')
                 else:
                     (_, x, y) = self.minimax(max=False)
+                    # print(f'Minimax returns {x}{y}')
 
             end = time.time()
             eval_time = round(end - start, 7)
@@ -545,7 +549,9 @@ class Game:
             if (self.player_turn == 'X' and player_x == self.AI) or (self.player_turn == 'O' and player_o == self.AI):
                 print(F'Evaluation time: {eval_time}s')
                 if (eval_time>self.t):
+                    print(F'Calculation exceeded time constraint using {eval_time}s')
                     self.check_end(wrong_move=True)
+                    return self.result
                 # print(F'Player {self.player_turn} under AI control plays: x = {x}, y = {y}')
                 print(F'Player {self.player_turn} under AI control plays: {string.ascii_uppercase[x]}{y}')
 
@@ -553,17 +559,27 @@ class Game:
             self.output_5(x,y,eval_time)
             self.switch_player()
 
+def get_random_blocs(n,b):
+    return sample(list(product(range(n), repeat=2)), k=b)
 
 def main():
-    # print(index2letter(0))
-    # g.play(algo=Game.ALPHABETA,player_x=Game.AI,player_o=Game.AI)
-    # g.play()
-    # g.playseries(2,4,0,3,3)
-    # g2 = Game(recommend=False, n=4, b=4, s=3, t=5, d1=6, d2=6, a1=False, a2=False, [(0,0),(0,4),(4,0),(4,4)] )
-    # g2 = Game(False, 4, 4, 3, 5, 6, 6, False, False, [(0,0),(0,3),(3,0),(3,3)] )
-    # g2.play()
-    g = Game(False, 4, 4, 3, 5, 6, 6, False, False, [(0,0),(0,3),(3,0),(3,3)] )
-    g.playseries(2)
+    seed(42)
+    games = []
+    games.append(Game(False, 4, 4, 3, 5, 6, 6, False, False, [(0,0),(0,3),(3,0),(3,3)] ))
+    games.append(Game(False, 4, 4, 3, 6, 6, 1, True, True, get_random_blocs(4,4)))
+    games.append(Game(False, 5, 4, 4, 2, 6, 1, True, True, get_random_blocs(5,4)))
+    games.append(Game(False, 5, 4, 4, 6, 6, 5, True, True, get_random_blocs(5,4)))
+    games.append(Game(False, 8, 5, 5, 2, 6, 1, True, True, get_random_blocs(8,5)))
+    games.append(Game(False, 8, 5, 5, 2, 6, 5, True, True, get_random_blocs(8,5)))
+    games.append(Game(False, 8, 6, 5, 2, 6, 1, True, True, get_random_blocs(8,5)))
+    games.append(Game(False, 8, 6, 5, 6, 6, 5, True, True, get_random_blocs(8,5)))
+     
+    for game in games:
+        print('Playing Game')
+        print("n="+str(game.n)+" b="+str(game.b)+" s="+str(game.s)+" t="+str(game.t))
+        game.play()
+        print('Playing series of games')
+        game.playseries(10)
 
 if __name__ == "__main__":
     main()
