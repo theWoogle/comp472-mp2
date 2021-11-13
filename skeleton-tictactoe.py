@@ -165,11 +165,17 @@ class Game:
         self.cntwin_e1=0
         self.cntwin_e2=0
         self.iSplayingSeries=True
+
         for j in range(2):
             if(j==1):
                 self.eX = self.E2
                 self.eO = self.E1
             for i in range(self.r):
+                self.current_state = [['.' for i in range(self.n)] for j in
+                                      range(self.n)]  # list of n lists with n points
+                for block in self.b_pos:
+                    self.current_state[block[0]][block[1]] = '#'
+
                 rslt = self.play()
                 if(j==0):
                     if(rslt=='X'):
@@ -600,8 +606,8 @@ def main():
         print('Playing Game')
         print("n="+str(game.n)+" b="+str(game.b)+" s="+str(game.s)+" t="+str(game.t))
         game.play()
-        # print('Playing series of games')
-        # game.playseries(10)
+        print('Playing series of games')
+        game.playseries(1)
 
 if __name__ == "__main__":
     main()
