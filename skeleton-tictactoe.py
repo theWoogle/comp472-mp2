@@ -92,7 +92,7 @@ class Game:
         self.player_turn = 'X'
         self.filegametrace = open(F"gameTrace-{self.n}{self.b}{self.s}{self.t}.txt", "a")
         self.scoreb = open("scoreboard.txt","a")
-
+        self.iSplayingSeries=False
 
 
     def output1_4(self):
@@ -138,7 +138,7 @@ class Game:
         self.evaluated_states_prior = dict(self.evaluated_states)
 
     def scoreboard(self):
-        self.scoreb.write("n=" + str(self.n) + " b=" + str(self.b) + " s=" + str(self.s) + " t=" + str(self.t))
+        self.scoreb.write("\nn=" + str(self.n) + " b=" + str(self.b) + " s=" + str(self.s) + " t=" + str(self.t))
         self.scoreb.write("\n\nPlayer 1: ")
         self.scoreb.write(F" d={self.dX} a=False" if self.a1 == self.MINIMAX else (F" d={self.dX} a=True"))
         self.scoreb.write("\nPlayer 2: ")
@@ -164,7 +164,7 @@ class Game:
         self.pX = self.AI
         self.cntwin_e1=0
         self.cntwin_e2=0
-
+        self.iSplayingSeries=True
         for j in range(2):
             if(j==1):
                 self.eX = self.E2
@@ -213,12 +213,13 @@ class Game:
         self.filegametrace.write(F'6(b)v   Average recursion depth: {self.total_ard/self.round_count}\n')
         self.filegametrace.write(F'6(b)vi  Total moves: {self.round_count}')
 
-        self.series_evalt.append(avg_eval_time)
-        self.series_totheuristic_eval += sum(self.evaluated_states.values())
-        self.series_Evaluations_depth.update(self.evaluated_states)
-        self.series_avg_evald.append(avg_depth)
-        self.series_ard.append(self.total_ard/self.round_count)
-        self.series_avgmoves.append(self.round_count)
+        if self.iSplayingSeries:
+            self.series_evalt.append(avg_eval_time)
+            self.series_totheuristic_eval += sum(self.evaluated_states.values())
+            self.series_Evaluations_depth.update(self.evaluated_states)
+            self.series_avg_evald.append(avg_depth)
+            self.series_ard.append(self.total_ard/self.round_count)
+            self.series_avgmoves.append(self.round_count)
 
 
         return avg_eval_time, sum(self.evaluated_states.values()), self.evaluated_states, avg_depth, self.round_count
