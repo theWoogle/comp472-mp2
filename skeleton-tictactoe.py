@@ -145,7 +145,7 @@ class Game:
         self.scoreb.write(F" d={self.dO} a=False" if self.a2 == self.MINIMAX else (F" d={self.dX} a=True"))
         self.scoreb.write(F"\n\n{2*self.r} games")
         self.scoreb.write(F"\n\nTotal wins for heuristic e1: {self.cntwin_e1} ({round((100*(self.cntwin_e1/(2*self.r))),1)}) (regular)")
-        self.scoreb.write(F"\nTotal wins for heuristic e2: {self.cntwin_e2} ({round((100*(self.cntwin_e1/(2*self.r))),1)}) (defensive)")
+        self.scoreb.write(F"\nTotal wins for heuristic e2: {self.cntwin_e2} ({round((100*(self.cntwin_e2/(2*self.r))),1)}) (defensive)")
 
         self.series_Evaluations_depth = dict(collections.OrderedDict(sorted(self.series_Evaluations_depth.items())))
         self.scoreb.write(F"\n\n\ni   Average evaluation time: {sum(self.series_evalt)/len(self.series_evalt)}")
@@ -177,6 +177,7 @@ class Game:
                     self.current_state[block[0]][block[1]] = '#'
 
                 rslt = self.play()
+                # print("---------------------------------------------------------------"+str(rslt))
                 if(j==0):
                     if(rslt=='X'):
                         self.cntwin_e1+=1
@@ -600,14 +601,16 @@ def main():
     # games.append(Game(False, 8, 6, 5, 2, 6, 1, True, True, get_random_blocs(8,6)))
     # games.append(Game(False, 8, 6, 5, 6, 6, 5, True, True, get_random_blocs(8,6)))
 
-    games.append(Game(False, 8, 5, 5, 4, 4, 5, True, True, get_random_blocs(8,5)))
+    # games.append(Game(False, 8, 5, 5, 4, 4, 5, True, True, get_random_blocs(8,5)))
 
+    #Testing
+    games.append(Game(False, 4, 3, 3, 4, 4, 5, True, True, get_random_blocs(4, 3)))
     for game in games:
         print('Playing Game')
         print("n="+str(game.n)+" b="+str(game.b)+" s="+str(game.s)+" t="+str(game.t))
         game.play()
         print('Playing series of games')
-        game.playseries(1)
+        game.playseries(2)
 
 if __name__ == "__main__":
     main()
