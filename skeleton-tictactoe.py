@@ -33,14 +33,8 @@ class Game:
     series_ard=[]
     series_avgmoves=[]
 
-    def __init__(self, recommend = True, n=4, b=0, s=4, dX=4, dO = 4, t=3, a1=False, a2=False, *args):
-        self.initialize_game(n,b,s,dX,dO,t,a1,a2,*args)
-        self.recommend = recommend
+    def __init__(self, askInputs = False, n=4, b=0, s=4, dX=4, dO = 4, t=3, a1=False, a2=False, *args):
 
-    def initialize_game(self, n,b,s,dX,dO,t,a1,a2,*args):
-        
-        askInputs=False
-        # Standard values for testing
         self.n = n
         self.b = b
         self.s = s
@@ -50,15 +44,11 @@ class Game:
         self.a1  = self.ALPHABETA if a1 == True else self.MINIMAX
         self.a2  = self.ALPHABETA if a2 == True else self.MINIMAX
         self.pO = self.AI
-        # self.pX = self.HUMAN
         self.pX = self.AI
         self.eX = self.E1
         self.eO = self.E2
-
-        self.average_rec_depth = 0
-        self.round_count = 0
-        self.total_time = 0
-        self.total_ard = 0
+        self.b_pos = args[0]
+        self.iSplayingSeries=False
 
         if(askInputs):
             self.n = int(input('Size of the board:'))
@@ -70,29 +60,36 @@ class Game:
             self.a = self.MINIMAX if bool(input('Use minimax (FALSE) or alphabeta (TRUE)?:')) else self.ALPHABETA
             self.pO = self.HUMAN if bool(input('Player 2 (O) is human (TRUE) or AI (FALSE)?:')) else self.AI
             self.pX = self.HUMAN if bool(input('Player 1 (X) is human (TRUE) or AI (FALSE)?:')) else self.AI
-        
-        self.current_state = [['.' for i in range(self.n)]for j in range(self.n)] # list of n lists with n points
-        self.b_pos = [tuple()] * self.b
-        self.evaluated_states = {}
-        self.evaluated_states_prior = {}
-
-        self.b_pos = args[0]
-        for block in self.b_pos:
-            self.current_state[block[0]][block[1]] = '#'
 
         if askInputs:
+            self.b_pos = [tuple()] * self.b
             for i, b in enumerate(self.b_pos):
                 print('Enter the coordinate for the block ',i)
                 px = int(input('enter the x coordinate: '))
                 py = int(input('enter the y coordinate: '))
                 self.b_pos[i] = (px,py) #can assume that input is valid
-                self.current_state[px][py] = '#'
+        self.initialize_game()
+        self.recommend = True
+
+    def initialize_game(self):
+                
+        self.current_state = [['.' for i in range(self.n)]for j in range(self.n)] # list of n lists with n points
+
+        for block in self.b_pos:
+            self.current_state[block[0]][block[1]] = '#'
+        # Statistics
+        self.evaluated_states = {}
+        self.evaluated_states_prior = {}
+        self.average_rec_depth = 0
+        self.round_count = 0
+        self.total_time = 0
+        self.total_ard = 0
 
         # Player X always plays first
         self.player_turn = 'X'
         self.filegametrace = open(F"gameTrace-{self.n}{self.b}{self.s}{self.t}.txt", "a")
         self.scoreb = open("scoreboard.txt","a")
-        self.iSplayingSeries=False
+
 
 
     def output1_4(self):
@@ -171,11 +168,7 @@ class Game:
                 self.eX = self.E2
                 self.eO = self.E1
             for i in range(self.r):
-                self.current_state = [['.' for i in range(self.n)] for j in
-                                      range(self.n)]  # list of n lists with n points
-                for block in self.b_pos:
-                    self.current_state[block[0]][block[1]] = '#'
-
+                self.initialize_game()
                 rslt = self.play()
                 # print("---------------------------------------------------------------"+str(rslt))
                 if(j==0):
@@ -380,8 +373,6 @@ class Game:
     #This encourage the player to block before building its own rows.
 
     def e2(self):
-        # o_win = 0
-        # x_win = 0
         points=0
         for i in range(0, self.n):
             for j in range(0, self.n):
@@ -465,15 +456,11 @@ class Game:
 
         elapsed_time = round((time.time() - self.start),7)
         max_depth = self.dX if self.player_turn == 'X' else self.dO
-        if(self.t - elapsed_time < self.t*50/500):
-            max_depth = round(max_depth*3/5)
-        if(self.t - elapsed_time < self.t*10/500):
+        if(self.t - elapsed_time < self.t*50/300):
             max_depth = round(max_depth*2/5)
-        if(self.t - elapsed_time < self.t*1/500):
+        if(self.t - elapsed_time < self.t*5/300):
             max_depth = round(max_depth*1/5)
 
-        # if (depth != 0) and -(self.t - elapsed_time < 0.005):
-        #     return(value,x,y) # return worst case if time is close
         result = self.is_end()
         if result == 'X':
             return (-INTMAX, x, y)
@@ -537,36 +524,21 @@ class Game:
             self.parent_node = [0] * (self.dX if self.player_turn == 'X' else self.dO)
             start = time.time()
             self.start = start
-            # values = [] 
-            # for a in range(0,self.n):
-            #     for b in range(0,self.n):
-            #         if(self.current_state[a][b] == '.'):
-            #             self.current_state[a][b] = self.player_turn
-            #             values.append(self.e2())
-            #             self.current_state[a][b] = '.'
-            # print(*values)
             self.average_rec_depth = 0
+
             is_max = False if self.player_turn == 'X' else True
             if is_max: # O turn
                 if self.a2 == self.ALPHABETA:
                     (m, x, y) = self.alphabeta(max=True)
-                    # print(f'Alphabeta returns {x}{y}')
                 else:
                     (_, x, y) = self.minimax(max=True)
-                    # print(f'Minimax returns {x}{y}')
             else:
                 if self.a1 == self.ALPHABETA:
                     (m, x, y) = self.alphabeta(max=False)
-                    # print(f'Alphabeta returns {x}{y}')
                 else:
                     (_, x, y) = self.minimax(max=False)
-                    # print(f'Minimax returns {x}{y}')
             end = time.time()
             eval_time = round(end - start, 7)
-            
-            # if x==None or y==None: # choose next empty tile if no results in time
-            #     x = next(any(self.current_state == '.')
-            #     y = next(self.current_state == '.')
 
             if (self.player_turn == 'X' and player_x == self.HUMAN) or (self.player_turn == 'O' and player_o == self.HUMAN):
                 if self.recommend:
@@ -579,7 +551,6 @@ class Game:
                     print(F'Calculation exceeded time constraint using {eval_time}s')
                     self.check_end(wrong_move=True)
                     return self.result
-                # print(F'Player {self.player_turn} under AI control plays: x = {x}, y = {y}')
                 print(F'Player {self.player_turn} under AI control plays: {string.ascii_uppercase[x]}{y}')
 
             self.current_state[x][y] = self.player_turn
@@ -592,25 +563,21 @@ def get_random_blocs(n,b):
 def main():
     seed(42)
     games = []
-    # games.append(Game(False, 4, 4, 3, 5, 6, 6, False, False, [(0,0),(0,3),(3,0),(3,3)] ))
-    # games.append(Game(False, 4, 4, 3, 6, 6, 1, True, True, get_random_blocs(4,4)))
-    # games.append(Game(False, 5, 4, 4, 2, 6, 1, True, True, get_random_blocs(5,4)))
-    # games.append(Game(False, 5, 4, 4, 6, 6, 5, True, True, get_random_blocs(5,4)))
-    # games.append(Game(False, 8, 5, 5, 2, 6, 1, True, True, get_random_blocs(8,5)))
-    # games.append(Game(False, 8, 5, 5, 2, 6, 5, True, True, get_random_blocs(8,5)))
-    # games.append(Game(False, 8, 6, 5, 2, 6, 1, True, True, get_random_blocs(8,6)))
-    # games.append(Game(False, 8, 6, 5, 6, 6, 5, True, True, get_random_blocs(8,6)))
+    games.append(Game(False, 4, 4, 3, 5, 6, 6, False, False, [(0,0),(0,3),(3,0),(3,3)] ))
+    games.append(Game(False, 4, 4, 3, 6, 6, 1, True, True, get_random_blocs(4,4)))
+    games.append(Game(False, 5, 4, 4, 2, 6, 1, True, True, get_random_blocs(5,4)))
+    games.append(Game(False, 5, 4, 4, 6, 6, 5, True, True, get_random_blocs(5,4)))
+    games.append(Game(False, 8, 5, 5, 2, 6, 1, True, True, get_random_blocs(8,5)))
+    games.append(Game(False, 8, 5, 5, 2, 6, 5, True, True, get_random_blocs(8,5)))
+    games.append(Game(False, 8, 6, 5, 2, 6, 1, True, True, get_random_blocs(8,6)))
+    games.append(Game(False, 8, 6, 5, 6, 6, 5, True, True, get_random_blocs(8,6)))
 
-    # games.append(Game(False, 8, 5, 5, 4, 4, 5, True, True, get_random_blocs(8,5)))
-
-    #Testing
-    games.append(Game(False, 4, 3, 3, 4, 4, 5, True, True, get_random_blocs(4, 3)))
     for game in games:
         print('Playing Game')
         print("n="+str(game.n)+" b="+str(game.b)+" s="+str(game.s)+" t="+str(game.t))
         game.play()
         print('Playing series of games')
-        game.playseries(2)
+        game.playseries(10)
 
 if __name__ == "__main__":
     main()
