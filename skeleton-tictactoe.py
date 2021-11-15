@@ -230,11 +230,12 @@ class Game:
         for i in range(len(self.parent_node)):
             if self.parent_node[-i-1] != 0:
                 if(max_depth-i+self.round_count in eval_states):
-                    ard = ((max_depth-i) * eval_states[max_depth-i+self.round_count] + ard)/self.parent_node[-i-1]
+                    ard = ((max_depth-i-1) * eval_states[max_depth-i+self.round_count] + ard)/self.parent_node[-i-1]
                 else:
                     ard = ard/self.parent_node[-i-1]
-        if ard != 0: 
-            ard = int(ard+self.round_count) # add root-depth
+            if ard != 0: 
+                ard = ard+self.round_count # add root-depth
+        ard = ard/len(self.parent_node)
         self.total_ard += ard
         return ard
 
@@ -456,11 +457,11 @@ class Game:
 
         elapsed_time = round((time.time() - self.start),7)
         max_depth = self.dX if self.player_turn == 'X' else self.dO
-        if(self.t - elapsed_time < self.t*50/300):
-            max_depth = round(max_depth*2/5)
-        if(self.t - elapsed_time < self.t*5/300):
-            max_depth = round(max_depth*1/5)
-
+        if(self.t - elapsed_time < round(self.t*2/30,7)):
+            max_depth = round(max_depth*1/3)
+        elif(self.t - elapsed_time < round(self.t*3/30,7)):
+            max_depth = round(max_depth*2/3)
+        
         result = self.is_end()
         if result == 'X':
             return (-INTMAX, x, y)
