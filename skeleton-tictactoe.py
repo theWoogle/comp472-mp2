@@ -104,7 +104,7 @@ class Game:
         self.filegametrace.write(" e1(regular)" if self.eX == self.E1 else " e2(defensive)\n")#TO DO
         self.filegametrace.write("\nPlayer 2: ")
         self.filegametrace.write("HUMAN" if self.pO == self.HUMAN else "AI")
-        self.filegametrace.write(F" d={self.dO} a=False" if self.a2 == self.MINIMAX else (F" d={self.dX} a=True"))
+        self.filegametrace.write(F" d={self.dO} a=False" if self.a2 == self.MINIMAX else (F" d={self.dO} a=True"))
         self.filegametrace.write(" e1(regular)" if self.eO == self.E1 else " e2(defensive)\n")#TO DO
 
     def output_5(self,x,y,eval_time):
@@ -135,11 +135,12 @@ class Game:
         self.evaluated_states_prior = dict(self.evaluated_states)
 
     def scoreboard(self):
+        self.scoreb.write(F"\n\n----------New Game-----------")
         self.scoreb.write("\nn=" + str(self.n) + " b=" + str(self.b) + " s=" + str(self.s) + " t=" + str(self.t))
         self.scoreb.write("\n\nPlayer 1: ")
         self.scoreb.write(F" d={self.dX} a=False" if self.a1 == self.MINIMAX else (F" d={self.dX} a=True"))
         self.scoreb.write("\nPlayer 2: ")
-        self.scoreb.write(F" d={self.dO} a=False" if self.a2 == self.MINIMAX else (F" d={self.dX} a=True"))
+        self.scoreb.write(F" d={self.dO} a=False" if self.a2 == self.MINIMAX else (F" d={self.dO} a=True"))
         self.scoreb.write(F"\n\n{2*self.r} games")
         self.scoreb.write(F"\n\nTotal wins for heuristic e1: {self.cntwin_e1} ({round((100*(self.cntwin_e1/(2*self.r))),1)}) (regular)")
         self.scoreb.write(F"\nTotal wins for heuristic e2: {self.cntwin_e2} ({round((100*(self.cntwin_e2/(2*self.r))),1)}) (defensive)")
@@ -355,7 +356,7 @@ class Game:
                 diagr = [self.current_state[i+d][j+d] for d in range(0,self.s) if ((i+self.s) <= self.n and (j+self.s) <= self.n)]
                 # diagonal left down
                 diagl = [self.current_state[i+d][j-d] for d in range(0,self.s) if ((i+self.s) <= self.n and (j-self.s) >= -1)]
-                lines = [hor,vert,diagr, diagl]
+                lines = [hor, vert, diagr, diagl]
                 for line in lines:
                     if any(tile == '#' for tile in line):
                         break
@@ -564,14 +565,14 @@ def get_random_blocs(n,b):
 def main():
     seed(42)
     games = []
-    games.append(Game(False, 4, 4, 3, 5, 6, 6, False, False, [(0,0),(0,3),(3,0),(3,3)] ))
-    games.append(Game(False, 4, 4, 3, 6, 6, 1, True, True, get_random_blocs(4,4)))
-    games.append(Game(False, 5, 4, 4, 2, 6, 1, True, True, get_random_blocs(5,4)))
-    games.append(Game(False, 5, 4, 4, 6, 6, 5, True, True, get_random_blocs(5,4)))
-    games.append(Game(False, 8, 5, 5, 2, 6, 1, True, True, get_random_blocs(8,5)))
+    # games.append(Game(False, 4, 4, 3, 6, 6, 5, False, False, [(0,0),(0,3),(3,0),(3,3)] ))
+    # games.append(Game(False, 4, 4, 3, 6, 6, 1, True, True, get_random_blocs(4,4)))
+    # games.append(Game(False, 5, 4, 4, 2, 6, 1, True, True, get_random_blocs(5,4)))
+    # games.append(Game(False, 5, 4, 4, 6, 6, 5, True, True, get_random_blocs(5,4)))
+    # games.append(Game(False, 8, 5, 5, 2, 6, 1, True, True, get_random_blocs(8,5)))
     games.append(Game(False, 8, 5, 5, 2, 6, 5, True, True, get_random_blocs(8,5)))
-    games.append(Game(False, 8, 6, 5, 2, 6, 1, True, True, get_random_blocs(8,6)))
-    games.append(Game(False, 8, 6, 5, 6, 6, 5, True, True, get_random_blocs(8,6)))
+    # games.append(Game(False, 8, 6, 5, 6, 6, 1, True, True, get_random_blocs(8,6)))
+    # games.append(Game(False, 8, 6, 5, 6, 6, 5, True, True, get_random_blocs(8,6)))
 
     for game in games:
         print('Playing Game')
