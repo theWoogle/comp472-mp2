@@ -1,0 +1,1469 @@
+
+n=5 b=0 s=3 t=5
+blocs=[]
+  ABCDE
+ +-----
+0|.....
+1|.....
+2|.....
+3|.....
+4|.....
+
+
+
+Player 1: AI d=5 a=True e1(regular)
+Player 2: AI d=4 a=False e2(defensive)
+
+Player X plays B1
+
+  ABCDE
+ +-----
+0|.....
+1|.X...
+2|.....
+3|.....
+4|.....
+
+Evaluation time: 3.3933322s 
+Visited states: 66281 
+States evaluated per depth: {5: 65532, 3: 749} 
+
+Average depth: 4.977
+ 
+Average recursion depth: 6.408
+ 
+Player O plays D1
+
+  ABCDE
+ +-----
+0|.....
+1|.X.O.
+2|.....
+3|.....
+4|.....
+
+Evaluation time: 4.9953012s 
+Visited states: 153908 
+States evaluated per depth: {5: 153908} 
+
+Average depth: 5.000
+ 
+Average recursion depth: 16.257
+ 
+Player X plays A0
+
+  ABCDE
+ +-----
+0|X....
+1|.X.O.
+2|.....
+3|.....
+4|.....
+
+Evaluation time: 0.1553996s 
+Visited states: 2442 
+States evaluated per depth: {7: 2442} 
+
+Average depth: 7.000
+ 
+Average recursion depth: 3.017
+ 
+Player O plays A1
+
+  ABCDE
+ +-----
+0|X....
+1|OX.O.
+2|.....
+3|.....
+4|.....
+
+Evaluation time: 4.7856266s 
+Visited states: 154924 
+States evaluated per depth: {7: 154924} 
+
+Average depth: 7.000
+ 
+Average recursion depth: 10.030
+ 
+Player X plays A2
+
+  ABCDE
+ +-----
+0|X....
+1|OX.O.
+2|X....
+3|.....
+4|.....
+
+Evaluation time: 0.0985856s 
+Visited states: 946 
+States evaluated per depth: {9: 946} 
+
+Average depth: 9.000
+ 
+Average recursion depth: 3.641
+ 
+Player O plays A3
+
+  ABCDE
+ +-----
+0|X....
+1|OX.O.
+2|X....
+3|O....
+4|.....
+
+Evaluation time: 3.0774474s 
+Visited states: 90200 
+States evaluated per depth: {9: 90200} 
+
+Average depth: 9.000
+ 
+Average recursion depth: 9.669
+ 
+Player X plays A4
+
+  ABCDE
+ +-----
+0|X....
+1|OX.O.
+2|X....
+3|O....
+4|X....
+
+Evaluation time: 0.0410397s 
+Visited states: 293 
+States evaluated per depth: {11: 293} 
+
+Average depth: 11.000
+ 
+Average recursion depth: 4.528
+ 
+Player O plays B0
+
+  ABCDE
+ +-----
+0|XO...
+1|OX.O.
+2|X....
+3|O....
+4|X....
+
+Evaluation time: 2.1215761s 
+Visited states: 54220 
+States evaluated per depth: {11: 54220} 
+
+Average depth: 11.000
+ 
+Average recursion depth: 9.648
+ 
+Player X plays B2
+
+  ABCDE
+ +-----
+0|XO...
+1|OX.O.
+2|XX...
+3|O....
+4|X....
+
+Evaluation time: 0.0013602s 
+Visited states: 1 
+States evaluated per depth: {13: 1} 
+
+Average depth: 13.000
+ 
+Average recursion depth: 5.550
+ 
+Player O plays B3
+
+  ABCDE
+ +-----
+0|XO...
+1|OX.O.
+2|XX...
+3|OO...
+4|X....
+
+Evaluation time: 1.1872115s 
+Visited states: 25776 
+States evaluated per depth: {13: 25776} 
+
+Average depth: 13.000
+ 
+Average recursion depth: 9.287
+ 
+Player X plays C0
+
+  ABCDE
+ +-----
+0|XOX..
+1|OX.O.
+2|XX...
+3|OO...
+4|X....
+
+Evaluation time: 0.0003521s 
+Visited states: 0 
+States evaluated per depth: {} 
+
+Average depth: 0.000
+ 
+Average recursion depth: 0.000
+ The winner is X!
+
+6(b)i   Average evaluation time: 1.8052029272727272 
+6(b)ii  Total heuristic evaluations: 548991 
+6(b)iii Evaluations by depth: {5: 219440, 3: 749, 7: 157366, 9: 91146, 11: 54513, 13: 25777} 
+6(b)iv  Average evaluation depth: 7.206068951950032
+6(b)v   Average recursion depth: 7.0940051543364095
+6(b)vi  Total moves: 11
+n=5 b=0 s=3 t=5
+blocs=[]
+  ABCDE
+ +-----
+0|.....
+1|.....
+2|.....
+3|.....
+4|.....
+
+
+
+Player 1: AI d=5 a=True e1(regular)
+Player 2: AI d=4 a=False e2(defensive)
+
+Player X plays B1
+
+  ABCDE
+ +-----
+0|.....
+1|.X...
+2|.....
+3|.....
+4|.....
+
+Evaluation time: 3.4110682s 
+Visited states: 59133 
+States evaluated per depth: {5: 58321, 4: 1, 3: 811} 
+
+Average depth: 4.973
+ 
+Average recursion depth: 6.904
+ 
+Player O plays D0
+
+  ABCDE
+ +-----
+0|...O.
+1|.X...
+2|.....
+3|.....
+4|.....
+
+Evaluation time: 4.9951692s 
+Visited states: 147092 
+States evaluated per depth: {5: 147092} 
+
+Average depth: 5.000
+ 
+Average recursion depth: 17.350
+ 
+Player X plays A0
+
+  ABCDE
+ +-----
+0|X..O.
+1|.X...
+2|.....
+3|.....
+4|.....
+
+Evaluation time: 0.1203530s 
+Visited states: 2297 
+States evaluated per depth: {7: 2297} 
+
+Average depth: 7.000
+ 
+Average recursion depth: 2.806
+ 
+Player O plays E1
+
+  ABCDE
+ +-----
+0|X..O.
+1|.X..O
+2|.....
+3|.....
+4|.....
+
+Evaluation time: 4.9952044s 
+Visited states: 119334 
+States evaluated per depth: {7: 119334} 
+
+Average depth: 7.000
+ 
+Average recursion depth: 11.748
+ 
+Player X plays A1
+
+  ABCDE
+ +-----
+0|X..O.
+1|XX..O
+2|.....
+3|.....
+4|.....
+
+Evaluation time: 0.0056915s 
+Visited states: 102 
+States evaluated per depth: {9: 102} 
+
+Average depth: 9.000
+ 
+Average recursion depth: 6.110
+ 
+Player O plays A2
+
+  ABCDE
+ +-----
+0|X..O.
+1|XX..O
+2|O....
+3|.....
+4|.....
+
+Evaluation time: 2.8798306s 
+Visited states: 79520 
+States evaluated per depth: {9: 79520} 
+
+Average depth: 9.000
+ 
+Average recursion depth: 9.230
+ 
+Player X plays A3
+
+  ABCDE
+ +-----
+0|X..O.
+1|XX..O
+2|O....
+3|X....
+4|.....
+
+Evaluation time: 0.1197033s 
+Visited states: 1420 
+States evaluated per depth: {11: 1420} 
+
+Average depth: 11.000
+ 
+Average recursion depth: 5.054
+ 
+Player O plays A4
+
+  ABCDE
+ +-----
+0|X..O.
+1|XX..O
+2|O....
+3|X....
+4|O....
+
+Evaluation time: 2.1295650s 
+Visited states: 53300 
+States evaluated per depth: {11: 53300} 
+
+Average depth: 11.000
+ 
+Average recursion depth: 9.554
+ 
+Player X plays B0
+
+  ABCDE
+ +-----
+0|XX.O.
+1|XX..O
+2|O....
+3|X....
+4|O....
+
+Evaluation time: 0.0013151s 
+Visited states: 2 
+States evaluated per depth: {13: 2} 
+
+Average depth: 13.000
+ 
+Average recursion depth: 5.550
+ 
+Player O plays B2
+
+  ABCDE
+ +-----
+0|XX.O.
+1|XX..O
+2|OO...
+3|X....
+4|O....
+
+Evaluation time: 0.9437816s 
+Visited states: 21960 
+States evaluated per depth: {13: 21960} 
+
+Average depth: 13.000
+ 
+Average recursion depth: 8.969
+ 
+Player X plays C0
+
+  ABCDE
+ +-----
+0|XXXO.
+1|XX..O
+2|OO...
+3|X....
+4|O....
+
+Evaluation time: 0.0005491s 
+Visited states: 0 
+States evaluated per depth: {} 
+
+Average depth: 0.000
+ 
+Average recursion depth: 0.000
+ The winner is X!
+
+6(b)i   Average evaluation time: 1.782021 
+6(b)ii  Total heuristic evaluations: 484160 
+6(b)iii Evaluations by depth: {5: 205413, 4: 1, 3: 811, 7: 121631, 9: 79622, 11: 54720, 13: 21962} 
+6(b)iv  Average evaluation depth: 7.1979159781890285
+6(b)v   Average recursion depth: 7.570474238911908
+6(b)vi  Total moves: 11
+n=5 b=0 s=3 t=5
+blocs=[]
+  ABCDE
+ +-----
+0|.....
+1|.....
+2|.....
+3|.....
+4|.....
+
+
+
+Player 1: AI d=5 a=True e1(regular)
+Player 2: AI d=4 a=False e2(defensive)
+
+Player X plays B1
+
+  ABCDE
+ +-----
+0|.....
+1|.X...
+2|.....
+3|.....
+4|.....
+
+Evaluation time: 3.3573997s 
+Visited states: 75906 
+States evaluated per depth: {5: 75395, 4: 1, 3: 510} 
+
+Average depth: 4.987
+ 
+Average recursion depth: 4.496
+ 
+Player O plays D2
+
+  ABCDE
+ +-----
+0|.....
+1|.X...
+2|...O.
+3|.....
+4|.....
+
+Evaluation time: 4.9952126s 
+Visited states: 161266 
+States evaluated per depth: {5: 161266} 
+
+Average depth: 5.000
+ 
+Average recursion depth: 15.308
+ 
+Player X plays A0
+
+  ABCDE
+ +-----
+0|X....
+1|.X...
+2|...O.
+3|.....
+4|.....
+
+Evaluation time: 0.1159906s 
+Visited states: 1871 
+States evaluated per depth: {7: 1871} 
+
+Average depth: 7.000
+ 
+Average recursion depth: 2.809
+ 
+Player O plays A1
+
+  ABCDE
+ +-----
+0|X....
+1|OX...
+2|...O.
+3|.....
+4|.....
+
+Evaluation time: 4.8015244s 
+Visited states: 154768 
+States evaluated per depth: {7: 154768} 
+
+Average depth: 7.000
+ 
+Average recursion depth: 10.022
+ 
+Player X plays A2
+
+  ABCDE
+ +-----
+0|X....
+1|OX...
+2|X..O.
+3|.....
+4|.....
+
+Evaluation time: 0.0538213s 
+Visited states: 661 
+States evaluated per depth: {9: 661} 
+
+Average depth: 9.000
+ 
+Average recursion depth: 3.511
+ 
+Player O plays A3
+
+  ABCDE
+ +-----
+0|X....
+1|OX...
+2|X..O.
+3|O....
+4|.....
+
+Evaluation time: 3.1352906s 
+Visited states: 90128 
+States evaluated per depth: {9: 90128} 
+
+Average depth: 9.000
+ 
+Average recursion depth: 9.663
+ 
+Player X plays A4
+
+  ABCDE
+ +-----
+0|X....
+1|OX...
+2|X..O.
+3|O....
+4|X....
+
+Evaluation time: 0.0265651s 
+Visited states: 143 
+States evaluated per depth: {11: 143} 
+
+Average depth: 11.000
+ 
+Average recursion depth: 4.407
+ 
+Player O plays B0
+
+  ABCDE
+ +-----
+0|XO...
+1|OX...
+2|X..O.
+3|O....
+4|X....
+
+Evaluation time: 1.9886394s 
+Visited states: 54156 
+States evaluated per depth: {11: 54156} 
+
+Average depth: 11.000
+ 
+Average recursion depth: 9.642
+ 
+Player X plays C0
+
+  ABCDE
+ +-----
+0|XOX..
+1|OX...
+2|X..O.
+3|O....
+4|X....
+
+Evaluation time: 0.0023549s 
+Visited states: 15 
+States evaluated per depth: {13: 15} 
+
+Average depth: 13.000
+ 
+Average recursion depth: 4.314
+ The winner is X!
+
+6(b)i   Average evaluation time: 2.052977622222222 
+6(b)ii  Total heuristic evaluations: 538914 
+6(b)iii Evaluations by depth: {5: 236661, 4: 1, 3: 510, 7: 156639, 9: 90789, 11: 54299, 13: 15} 
+6(b)iv  Average evaluation depth: 6.858045996207187
+6(b)v   Average recursion depth: 7.130121569173323
+6(b)vi  Total moves: 9
+n=5 b=0 s=3 t=5
+blocs=[]
+  ABCDE
+ +-----
+0|.....
+1|.....
+2|.....
+3|.....
+4|.....
+
+
+
+Player 1: AI d=5 a=True e1(regular)
+Player 2: AI d=4 a=False e2(defensive)
+
+Player X plays B1
+
+  ABCDE
+ +-----
+0|.....
+1|.X...
+2|.....
+3|.....
+4|.....
+
+Evaluation time: 3.3501892s 
+Visited states: 81683 
+States evaluated per depth: {5: 81240, 4: 1, 3: 442} 
+
+Average depth: 4.989
+ 
+Average recursion depth: 3.953
+ 
+Player O plays D2
+
+  ABCDE
+ +-----
+0|.....
+1|.X...
+2|...O.
+3|.....
+4|.....
+
+Evaluation time: 4.9951856s 
+Visited states: 164490 
+States evaluated per depth: {5: 164490} 
+
+Average depth: 5.000
+ 
+Average recursion depth: 15.310
+ 
+Player X plays A0
+
+  ABCDE
+ +-----
+0|X....
+1|.X...
+2|...O.
+3|.....
+4|.....
+
+Evaluation time: 0.1237733s 
+Visited states: 1871 
+States evaluated per depth: {7: 1871} 
+
+Average depth: 7.000
+ 
+Average recursion depth: 2.809
+ 
+Player O plays A1
+
+  ABCDE
+ +-----
+0|X....
+1|OX...
+2|...O.
+3|.....
+4|.....
+
+Evaluation time: 4.7868624s 
+Visited states: 154768 
+States evaluated per depth: {7: 154768} 
+
+Average depth: 7.000
+ 
+Average recursion depth: 10.022
+ 
+Player X plays A2
+
+  ABCDE
+ +-----
+0|X....
+1|OX...
+2|X..O.
+3|.....
+4|.....
+
+Evaluation time: 0.0858481s 
+Visited states: 661 
+States evaluated per depth: {9: 661} 
+
+Average depth: 9.000
+ 
+Average recursion depth: 3.511
+ 
+Player O plays A3
+
+  ABCDE
+ +-----
+0|X....
+1|OX...
+2|X..O.
+3|O....
+4|.....
+
+Evaluation time: 3.0499372s 
+Visited states: 90128 
+States evaluated per depth: {9: 90128} 
+
+Average depth: 9.000
+ 
+Average recursion depth: 9.663
+ 
+Player X plays A4
+
+  ABCDE
+ +-----
+0|X....
+1|OX...
+2|X..O.
+3|O....
+4|X....
+
+Evaluation time: 0.0205593s 
+Visited states: 143 
+States evaluated per depth: {11: 143} 
+
+Average depth: 11.000
+ 
+Average recursion depth: 4.407
+ 
+Player O plays B0
+
+  ABCDE
+ +-----
+0|XO...
+1|OX...
+2|X..O.
+3|O....
+4|X....
+
+Evaluation time: 1.9768720s 
+Visited states: 54156 
+States evaluated per depth: {11: 54156} 
+
+Average depth: 11.000
+ 
+Average recursion depth: 9.642
+ 
+Player X plays C0
+
+  ABCDE
+ +-----
+0|XOX..
+1|OX...
+2|X..O.
+3|O....
+4|X....
+
+Evaluation time: 0.0034111s 
+Visited states: 15 
+States evaluated per depth: {13: 15} 
+
+Average depth: 13.000
+ 
+Average recursion depth: 4.314
+ The winner is X!
+
+6(b)i   Average evaluation time: 2.043626466666667 
+6(b)ii  Total heuristic evaluations: 547915 
+6(b)iii Evaluations by depth: {5: 245730, 4: 1, 3: 442, 7: 156639, 9: 90789, 11: 54299, 13: 15} 
+6(b)iv  Average evaluation depth: 6.8277707308615385
+6(b)v   Average recursion depth: 7.069957873996638
+6(b)vi  Total moves: 9
+n=5 b=0 s=3 t=5
+blocs=[]
+  ABCDE
+ +-----
+0|.....
+1|.....
+2|.....
+3|.....
+4|.....
+
+
+
+Player 1: AI d=5 a=True e2(defensive)
+
+Player 2: AI d=4 a=False e1(regular)
+Player X plays B1
+
+  ABCDE
+ +-----
+0|.....
+1|.X...
+2|.....
+3|.....
+4|.....
+
+Evaluation time: 3.3379066s 
+Visited states: 99024 
+States evaluated per depth: {5: 98947, 3: 77} 
+
+Average depth: 4.998
+ 
+Average recursion depth: 1.030
+ 
+Player O plays C4
+
+  ABCDE
+ +-----
+0|.....
+1|.X...
+2|.....
+3|.....
+4|..O..
+
+Evaluation time: 4.9951789s 
+Visited states: 132515 
+States evaluated per depth: {5: 132515} 
+
+Average depth: 5.000
+ 
+Average recursion depth: 18.613
+ 
+Player X plays A0
+
+  ABCDE
+ +-----
+0|X....
+1|.X...
+2|.....
+3|.....
+4|..O..
+
+Evaluation time: 0.0312200s 
+Visited states: 653 
+States evaluated per depth: {7: 653} 
+
+Average depth: 7.000
+ 
+Average recursion depth: 2.512
+ 
+Player O plays E0
+
+  ABCDE
+ +-----
+0|X...O
+1|.X...
+2|.....
+3|.....
+4|..O..
+
+Evaluation time: 4.9973083s 
+Visited states: 114970 
+States evaluated per depth: {7: 114970} 
+
+Average depth: 7.000
+ 
+Average recursion depth: 12.463
+ 
+Player X plays A1
+
+  ABCDE
+ +-----
+0|X...O
+1|XX...
+2|.....
+3|.....
+4|..O..
+
+Evaluation time: 0.0343449s 
+Visited states: 139 
+States evaluated per depth: {9: 139} 
+
+Average depth: 9.000
+ 
+Average recursion depth: 3.884
+ 
+Player O plays A2
+
+  ABCDE
+ +-----
+0|X...O
+1|XX...
+2|O....
+3|.....
+4|..O..
+
+Evaluation time: 3.9784753s 
+Visited states: 80040 
+States evaluated per depth: {9: 80040} 
+
+Average depth: 9.000
+ 
+Average recursion depth: 9.270
+ 
+Player X plays B3
+
+  ABCDE
+ +-----
+0|X...O
+1|XX...
+2|O....
+3|.X...
+4|..O..
+
+Evaluation time: 0.0837855s 
+Visited states: 1674 
+States evaluated per depth: {11: 1674} 
+
+Average depth: 11.000
+ 
+Average recursion depth: 3.170
+ 
+Player O plays A3
+
+  ABCDE
+ +-----
+0|X...O
+1|XX...
+2|O....
+3|OX...
+4|..O..
+
+Evaluation time: 3.3744302s 
+Visited states: 53384 
+States evaluated per depth: {11: 53384} 
+
+Average depth: 11.000
+ 
+Average recursion depth: 9.583
+ 
+Player X plays A4
+
+  ABCDE
+ +-----
+0|X...O
+1|XX...
+2|O....
+3|OX...
+4|X.O..
+
+Evaluation time: 0.0281880s 
+Visited states: 80 
+States evaluated per depth: {13: 80} 
+
+Average depth: 13.000
+ 
+Average recursion depth: 5.612
+ 
+Player O plays B0
+
+  ABCDE
+ +-----
+0|XO..O
+1|XX...
+2|O....
+3|OX...
+4|X.O..
+
+Evaluation time: 1.7321155s 
+Visited states: 30332 
+States evaluated per depth: {13: 30332} 
+
+Average depth: 13.000
+ 
+Average recursion depth: 9.692
+ 
+Player X plays B2
+
+  ABCDE
+ +-----
+0|XO..O
+1|XX...
+2|OX...
+3|OX...
+4|X.O..
+
+Evaluation time: 0.0000355s 
+Visited states: 0 
+States evaluated per depth: {} 
+
+Average depth: 0.000
+ 
+Average recursion depth: 0.000
+ The winner is X!
+
+6(b)i   Average evaluation time: 2.0539080636363636 
+6(b)ii  Total heuristic evaluations: 512811 
+6(b)iii Evaluations by depth: {5: 231462, 3: 77, 7: 115623, 9: 80179, 11: 55058, 13: 30412} 
+6(b)iv  Average evaluation depth: 7.194672111167662
+6(b)v   Average recursion depth: 6.893664718318553
+6(b)vi  Total moves: 11
+n=5 b=0 s=3 t=5
+blocs=[]
+  ABCDE
+ +-----
+0|.....
+1|.....
+2|.....
+3|.....
+4|.....
+
+
+
+Player 1: AI d=5 a=True e2(defensive)
+
+Player 2: AI d=4 a=False e1(regular)
+Player X plays B1
+
+  ABCDE
+ +-----
+0|.....
+1|.X...
+2|.....
+3|.....
+4|.....
+
+Evaluation time: 3.3535228s 
+Visited states: 79659 
+States evaluated per depth: {5: 79480, 3: 179} 
+
+Average depth: 4.996
+ 
+Average recursion depth: 1.847
+ 
+Player O plays C3
+
+  ABCDE
+ +-----
+0|.....
+1|.X...
+2|.....
+3|..O..
+4|.....
+
+Evaluation time: 4.9951942s 
+Visited states: 119415 
+States evaluated per depth: {5: 119415} 
+
+Average depth: 5.000
+ 
+Average recursion depth: 20.105
+ 
+Player X plays A0
+
+  ABCDE
+ +-----
+0|X....
+1|.X...
+2|.....
+3|..O..
+4|.....
+
+Evaluation time: 0.0219951s 
+Visited states: 386 
+States evaluated per depth: {7: 386} 
+
+Average depth: 7.000
+ 
+Average recursion depth: 2.232
+ 
+Player O plays E1
+
+  ABCDE
+ +-----
+0|X....
+1|.X..O
+2|.....
+3|..O..
+4|.....
+
+Evaluation time: 4.9951828s 
+Visited states: 127177 
+States evaluated per depth: {7: 127177} 
+
+Average depth: 7.000
+ 
+Average recursion depth: 11.841
+ 
+Player X plays A1
+
+  ABCDE
+ +-----
+0|X....
+1|XX..O
+2|.....
+3|..O..
+4|.....
+
+Evaluation time: 0.0051003s 
+Visited states: 102 
+States evaluated per depth: {9: 102} 
+
+Average depth: 9.000
+ 
+Average recursion depth: 6.110
+ 
+Player O plays A2
+
+  ABCDE
+ +-----
+0|X....
+1|XX..O
+2|O....
+3|..O..
+4|.....
+
+Evaluation time: 3.3447821s 
+Visited states: 81304 
+States evaluated per depth: {9: 81304} 
+
+Average depth: 9.000
+ 
+Average recursion depth: 9.368
+ 
+Player X plays A3
+
+  ABCDE
+ +-----
+0|X....
+1|XX..O
+2|O....
+3|X.O..
+4|.....
+
+Evaluation time: 0.0779979s 
+Visited states: 1470 
+States evaluated per depth: {11: 1470} 
+
+Average depth: 11.000
+ 
+Average recursion depth: 5.444
+ 
+Player O plays A4
+
+  ABCDE
+ +-----
+0|X....
+1|XX..O
+2|O....
+3|X.O..
+4|O....
+
+Evaluation time: 2.4381123s 
+Visited states: 55244 
+States evaluated per depth: {11: 55244} 
+
+Average depth: 11.000
+ 
+Average recursion depth: 9.753
+ 
+Player X plays B0
+
+  ABCDE
+ +-----
+0|XX...
+1|XX..O
+2|O....
+3|X.O..
+4|O....
+
+Evaluation time: 0.0012853s 
+Visited states: 4 
+States evaluated per depth: {13: 4} 
+
+Average depth: 13.000
+ 
+Average recursion depth: 5.588
+ 
+Player O plays B2
+
+  ABCDE
+ +-----
+0|XX...
+1|XX..O
+2|OO...
+3|X.O..
+4|O....
+
+Evaluation time: 1.1340849s 
+Visited states: 22744 
+States evaluated per depth: {13: 22744} 
+
+Average depth: 13.000
+ 
+Average recursion depth: 9.105
+ 
+Player X plays C0
+
+  ABCDE
+ +-----
+0|XXX..
+1|XX..O
+2|OO...
+3|X.O..
+4|O....
+
+Evaluation time: 0.0005136s 
+Visited states: 0 
+States evaluated per depth: {} 
+
+Average depth: 0.000
+ 
+Average recursion depth: 0.000
+ The winner is X!
+
+6(b)i   Average evaluation time: 1.8516155727272732 
+6(b)ii  Total heuristic evaluations: 487505 
+6(b)iii Evaluations by depth: {5: 198895, 3: 179, 7: 127563, 9: 81406, 11: 56714, 13: 22748} 
+6(b)iv  Average evaluation depth: 7.2618434682721205
+6(b)v   Average recursion depth: 7.399392812641793
+6(b)vi  Total moves: 11
+n=5 b=0 s=3 t=5
+blocs=[]
+  ABCDE
+ +-----
+0|.....
+1|.....
+2|.....
+3|.....
+4|.....
+
+
+
+Player 1: AI d=5 a=True e2(defensive)
+
+Player 2: AI d=4 a=False e1(regular)
+Player X plays B1
+
+  ABCDE
+ +-----
+0|.....
+1|.X...
+2|.....
+3|.....
+4|.....
+
+Evaluation time: 3.3376188s 
+Visited states: 98611 
+States evaluated per depth: {5: 98539, 4: 1, 3: 71} 
+
+Average depth: 4.999
+ 
+Average recursion depth: 0.982
+ 
+Player O plays C4
+
+  ABCDE
+ +-----
+0|.....
+1|.X...
+2|.....
+3|.....
+4|..O..
+
+Evaluation time: 4.9952040s 
+Visited states: 135562 
+States evaluated per depth: {5: 135562} 
+
+Average depth: 5.000
+ 
+Average recursion depth: 18.653
+ 
+Player X plays A0
+
+  ABCDE
+ +-----
+0|X....
+1|.X...
+2|.....
+3|.....
+4|..O..
+
+Evaluation time: 0.0672219s 
+Visited states: 653 
+States evaluated per depth: {7: 653} 
+
+Average depth: 7.000
+ 
+Average recursion depth: 2.512
+ 
+Player O plays E1
+
+  ABCDE
+ +-----
+0|X....
+1|.X..O
+2|.....
+3|.....
+4|..O..
+
+Evaluation time: 4.9953427s 
+Visited states: 124112 
+States evaluated per depth: {7: 124112} 
+
+Average depth: 7.000
+ 
+Average recursion depth: 11.878
+ 
+Player X plays A1
+
+  ABCDE
+ +-----
+0|X....
+1|XX..O
+2|.....
+3|.....
+4|..O..
+
+Evaluation time: 0.0122478s 
+Visited states: 139 
+States evaluated per depth: {9: 139} 
+
+Average depth: 9.000
+ 
+Average recursion depth: 3.884
+ 
+Player O plays A2
+
+  ABCDE
+ +-----
+0|X....
+1|XX..O
+2|O....
+3|.....
+4|..O..
+
+Evaluation time: 3.3606145s 
+Visited states: 80340 
+States evaluated per depth: {9: 80340} 
+
+Average depth: 9.000
+ 
+Average recursion depth: 9.293
+ 
+Player X plays B3
+
+  ABCDE
+ +-----
+0|X....
+1|XX..O
+2|O....
+3|.X...
+4|..O..
+
+Evaluation time: 0.0955184s 
+Visited states: 1631 
+States evaluated per depth: {11: 1631} 
+
+Average depth: 11.000
+ 
+Average recursion depth: 3.177
+ 
+Player O plays A3
+
+  ABCDE
+ +-----
+0|X....
+1|XX..O
+2|O....
+3|OX...
+4|..O..
+
+Evaluation time: 2.3221533s 
+Visited states: 53632 
+States evaluated per depth: {11: 53632} 
+
+Average depth: 11.000
+ 
+Average recursion depth: 9.608
+ 
+Player X plays A4
+
+  ABCDE
+ +-----
+0|X....
+1|XX..O
+2|O....
+3|OX...
+4|X.O..
+
+Evaluation time: 0.0101466s 
+Visited states: 71 
+States evaluated per depth: {13: 71} 
+
+Average depth: 13.000
+ 
+Average recursion depth: 5.619
+ 
+Player O plays B0
+
+  ABCDE
+ +-----
+0|XO...
+1|XX..O
+2|O....
+3|OX...
+4|X.O..
+
+Evaluation time: 1.4203737s 
+Visited states: 30500 
+States evaluated per depth: {13: 30500} 
+
+Average depth: 13.000
+ 
+Average recursion depth: 9.717
+ 
+Player X plays B2
+
+  ABCDE
+ +-----
+0|XO...
+1|XX..O
+2|OX...
+3|OX...
+4|X.O..
+
+Evaluation time: 0.0000439s 
+Visited states: 0 
+States evaluated per depth: {} 
+
+Average depth: 0.000
+ 
+Average recursion depth: 0.000
+ The winner is X!
+
+6(b)i   Average evaluation time: 1.8742259636363636 
+6(b)ii  Total heuristic evaluations: 525251 
+6(b)iii Evaluations by depth: {5: 234101, 4: 1, 3: 71, 7: 124765, 9: 80479, 11: 55263, 13: 30571} 
+6(b)iv  Average evaluation depth: 7.184572709047674
+6(b)v   Average recursion depth: 6.847651666934226
+6(b)vi  Total moves: 11

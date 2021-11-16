@@ -152,3 +152,22 @@ iii Evaluations by depth: {2: 40, 3: 84, 4: 119, 5: 6627, 6: 156, 7: 29259, 8: 1
 iv  Average evaluation depth: 8.974846307159293
 v   Average recursion depth: 0.9164916120328307
 vi  Average moves per game: 16.25
+
+----------New Game-----------
+n=5 b=0 s=3 t=5
+
+Player 1:  d=5 a=True
+Player 2:  d=4 a=False
+
+6 games
+
+Total wins for heuristic e1: 3 (50.0) (regular)
+Total wins for heuristic e2: 3 (50.0) (defensive)
+
+
+i   Average evaluation time: 1.943062448148148
+ii  Total heuristic evaluations: 3096556
+iii Evaluations by depth: {3: 71, 4: 1, 5: 234101, 7: 124765, 9: 80479, 11: 55263, 13: 30571}
+iv  Average evaluation depth: 7.087470165624201
+v   Average recursion depth: 7.15187714666274
+vi  Average moves per game: 10.333333333333334

@@ -66,7 +66,10 @@ class Game:
                 py = int(input('enter the y coordinate: '))
                 self.b_pos[i] = (px,py) #can assume that input is valid
         else:
+            if self.b >0:
                 self.b_pos = args[0]
+            else:
+                self.b_pos = []
 
         self.initialize_game()
         self.recommend = True
@@ -566,14 +569,17 @@ def main():
     seed(42)
     games = []
     # Play AI vs AI
-    games.append(Game(False, 4, 4, 3, 6, 6, 5, False, False, [(0,0),(0,3),(3,0),(3,3)] ))
-    games.append(Game(False, 4, 4, 3, 6, 6, 1, True, True, get_random_blocs(4,4)))
-    games.append(Game(False, 5, 4, 4, 2, 6, 1, True, True, get_random_blocs(5,4)))
-    games.append(Game(False, 5, 4, 4, 6, 6, 5, True, True, get_random_blocs(5,4)))
-    games.append(Game(False, 8, 5, 5, 2, 6, 1, True, True, get_random_blocs(8,5)))
-    games.append(Game(False, 8, 5, 5, 2, 6, 5, True, True, get_random_blocs(8,5)))
-    games.append(Game(False, 8, 6, 5, 6, 6, 1, True, True, get_random_blocs(8,6)))
-    games.append(Game(False, 8, 6, 5, 6, 6, 5, True, True, get_random_blocs(8,6)))
+    # games.append(Game(False, 4, 4, 3, 6, 6, 5, False, False, [(0,0),(0,3),(3,0),(3,3)] ))
+    # games.append(Game(False, 4, 4, 3, 6, 6, 1, True, True, get_random_blocs(4,4)))
+    # games.append(Game(False, 5, 4, 4, 2, 6, 1, True, True, get_random_blocs(5,4)))
+    # games.append(Game(False, 5, 4, 4, 6, 6, 5, True, True, get_random_blocs(5,4)))
+    # games.append(Game(False, 8, 5, 5, 2, 6, 1, True, True, get_random_blocs(8,5)))
+    # games.append(Game(False, 8, 5, 5, 2, 6, 5, True, True, get_random_blocs(8,5)))
+    # games.append(Game(False, 8, 6, 5, 6, 6, 1, True, True, get_random_blocs(8,6)))
+    # games.append(Game(False, 8, 6, 5, 6, 6, 5, True, True, get_random_blocs(8,6)))
+
+    # Demo-Code
+    games.append(Game(False, 5, 0, 3, 5, 4, 5, True, False))
 
     # Play manually instead
     # games.append(Game(True))
@@ -583,7 +589,7 @@ def main():
         print("n="+str(game.n)+" b="+str(game.b)+" s="+str(game.s)+" t="+str(game.t))
         game.play()
         print('Playing series of games')
-        game.playseries(10)
+        game.playseries(3)
 
 if __name__ == "__main__":
     main()
