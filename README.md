@@ -1,4 +1,5 @@
 # comp472-mp2
+Repo-URL: `https://github.com/theWoogle/comp472-mp2/`
 * Run the required games from the assignment with `pypy3 skeleton-tictactoe.py`
 * To play manually change add another game to the list of games to play in line 576: 
   
