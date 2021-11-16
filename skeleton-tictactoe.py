@@ -458,9 +458,9 @@ class Game:
 
         elapsed_time = round((time.time() - self.start),7)
         max_depth = self.dX if self.player_turn == 'X' else self.dO
-        if(self.t - elapsed_time < round(self.t*2/30,7)):
+        if(self.t - elapsed_time < round(self.t*5/30,7)):
             max_depth = round(max_depth*1/3)
-        elif(self.t - elapsed_time < round(self.t*3/30,7)):
+        elif(self.t - elapsed_time < round(self.t*10/30,7)):
             max_depth = round(max_depth*2/3)
         
         result = self.is_end()
@@ -566,11 +566,11 @@ def main():
     seed(42)
     games = []
     # games.append(Game(False, 4, 4, 3, 6, 6, 5, False, False, [(0,0),(0,3),(3,0),(3,3)] ))
-    # games.append(Game(False, 4, 4, 3, 6, 6, 1, True, True, get_random_blocs(4,4)))
-    # games.append(Game(False, 5, 4, 4, 2, 6, 1, True, True, get_random_blocs(5,4)))
+    games.append(Game(False, 4, 4, 3, 6, 6, 1, True, True, get_random_blocs(4,4)))
+    games.append(Game(False, 5, 4, 4, 2, 6, 1, True, True, get_random_blocs(5,4)))
     # games.append(Game(False, 5, 4, 4, 6, 6, 5, True, True, get_random_blocs(5,4)))
-    # games.append(Game(False, 8, 5, 5, 2, 6, 1, True, True, get_random_blocs(8,5)))
-    games.append(Game(False, 8, 5, 5, 2, 6, 5, True, True, get_random_blocs(8,5)))
+    games.append(Game(False, 8, 5, 5, 2, 6, 1, True, True, get_random_blocs(8,5)))
+    # games.append(Game(False, 8, 5, 5, 2, 6, 5, True, True, get_random_blocs(8,5)))
     # games.append(Game(False, 8, 6, 5, 6, 6, 1, True, True, get_random_blocs(8,6)))
     # games.append(Game(False, 8, 6, 5, 6, 6, 5, True, True, get_random_blocs(8,6)))
 

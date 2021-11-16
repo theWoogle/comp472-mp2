@@ -1,195 +1,29 @@
 
-n=8 b=5 s=5 t=1
 
-Player 1:  d=2 a=True
-Player 2:  d=2 a=True
+----------New Game-----------
+n=4 b=4 s=3 t=5
 
-10 games
-
-Total wins for heuristic e1: 5 (50.0) (regular)
-Total wins for heuristic e2: 1 (10.0) (defensive)
-
-
-i   Average evaluation time: 0.5964961657963704
-ii  Total heuristic evaluations: 1111268
-iii Evaluations by depth: {2: 116, 3: 1023, 4: 48, 5: 188, 6: 1, 7: 7398, 8: 1383, 9: 9637, 10: 1304, 11: 7803, 12: 1128, 13: 8716, 14: 841, 15: 8827, 16: 920, 17: 9751, 18: 53, 19: 7849, 20: 16, 21: 7345, 22: 864, 23: 9803, 24: 781, 25: 9810, 26: 581, 27: 9946, 28: 450, 29: 10067, 30: 415, 31: 10202, 32: 314, 33: 9816, 34: 452, 35: 9661, 36: 394, 37: 9883, 38: 360, 39: 8764, 40: 176, 41: 9134, 42: 229, 43: 9122, 44: 43, 45: 6639, 46: 52, 47: 6985, 48: 27, 49: 5580, 50: 20, 51: 6483, 52: 17, 53: 6489, 54: 12, 55: 1862, 56: 8, 57: 1694, 58: 4}
-iv  Average evaluation depth: 9.96169599194106
-v   Average recursion depth: 1.4629992075785176
-vi  Average moves per game: 17.48
-n=8 b=6 s=5 t=5
-
-Player 1:  d=6 a=True
-Player 2:  d=6 a=True
-
-10 games
-
-Total wins for heuristic e1: 10 (100.0) (regular)
-Total wins for heuristic e2: 0 (0.0) (defensive)
-
-
-i   Average evaluation time: 1.1685151377216714
-ii  Total heuristic evaluations: 17146271
-iii Evaluations by depth: {2: 108, 3: 949, 4: 1781, 5: 2988, 6: 46256, 7: 55374, 8: 45660, 9: 58356, 10: 43608, 11: 57132, 12: 44464, 13: 59867, 14: 48831, 15: 59516, 16: 47077, 17: 61952, 18: 49945, 19: 58017, 20: 47260, 21: 59146, 22: 50133, 23: 61518, 24: 49595, 25: 59155, 26: 47982, 27: 58273, 28: 46829, 29: 57882, 30: 47307, 31: 57041, 32: 46704, 33: 49844, 34: 30942, 35: 38197, 36: 26604, 37: 23473, 38: 34997, 39: 11762, 40: 11376, 41: 940, 42: 1696, 43: 2262, 44: 227, 45: 169, 46: 1872, 47: 8014, 48: 11, 49: 90, 50: 48, 51: 400, 52: 25, 53: 33467, 54: 23, 55: 4387, 56: 8, 57: 105, 58: 5}
-iv  Average evaluation depth: 13.581526776360766
-v   Average recursion depth: 2.815448979958601
-vi  Average moves per game: 23.85
-n=5 b=4 s=4 t=5
-
-Player 1:  d=6 a=True
-Player 2:  d=6 a=True
-
-10 games
-
-Total wins for heuristic e1: 0 (0.0) (regular)
-Total wins for heuristic e2: 0 (0.0) (defensive)
-
-
-i   Average evaluation time: 0.6901081669753361
-ii  Total heuristic evaluations: 8513840
-iii Evaluations by depth: {2: 13, 3: 12, 4: 80, 5: 2143, 6: 146733, 7: 153149, 8: 142522, 9: 82704, 10: 147748, 11: 38375, 12: 76342, 13: 21836, 14: 12529, 15: 14487, 16: 11221, 17: 1296, 18: 5521, 19: 414, 20: 190}
-iv  Average evaluation depth: 8.486580139129194
-v   Average recursion depth: 1.3081595701656856
-vi  Average moves per game: 15.3
-n=4 b=4 s=3 t=1
-
-Player 1:  d=6 a=True
-Player 2:  d=6 a=True
-
-10 games
-
-Total wins for heuristic e1: 0 (0.0) (regular)
-Total wins for heuristic e2: 0 (0.0) (defensive)
-
-
-i   Average evaluation time: 0.5212643851893939
-ii  Total heuristic evaluations: 951725
-iii Evaluations by depth: {3: 21, 4: 1, 5: 1171, 6: 34233, 7: 50195, 8: 5611, 9: 2700, 10: 2533, 11: 331}
-iv  Average evaluation depth: 6.832236427064913
-v   Average recursion depth: 0.882358430576002
-vi  Average moves per game: 11.1
-n=8 b=6 s=5 t=1
-
-Player 1:  d=2 a=True
-Player 2:  d=2 a=True
-
-10 games
-
-Total wins for heuristic e1: 5 (50.0) (regular)
-Total wins for heuristic e2: 5 (50.0) (defensive)
-
-
-i   Average evaluation time: 0.7674175196440457
-ii  Total heuristic evaluations: 665135
-iii Evaluations by depth: {2: 221, 3: 630, 4: 735, 5: 842, 6: 353, 7: 11967, 8: 407, 9: 11953, 10: 429, 11: 11682, 12: 375, 13: 12419, 14: 1410, 15: 12517, 16: 29, 17: 11383, 18: 1, 19: 11183, 20: 199, 21: 55225, 22: 152, 23: 56551, 24: 179, 25: 55829, 26: 446, 27: 52518, 28: 421, 29: 49719, 30: 379, 31: 55144, 32: 347, 33: 39943, 34: 147, 35: 39158, 36: 404, 37: 45821, 38: 341, 39: 44329, 40: 41, 41: 38336, 42: 18, 43: 23398, 44: 16, 45: 22885, 46: 14, 47: 8014, 48: 11, 49: 90, 50: 48, 51: 400, 52: 25, 53: 33467, 54: 23, 55: 4387, 56: 8, 57: 105, 58: 5}
-iv  Average evaluation depth: 12.39798770755547
-v   Average recursion depth: 1.9936452153290585
-vi  Average moves per game: 21.457142857142856
-n=4 b=4 s=3 t=6
-
-Player 1:  d=5 a=False
+Player 1:  d=6 a=False
 Player 2:  d=6 a=False
-
-10 games
-
-Total wins for heuristic e1: 5 (50.0) (regular)
-Total wins for heuristic e2: 0 (0.0) (defensive)
-
-
-i   Average evaluation time: 0.8823703245454546
-ii  Total heuristic evaluations: 4281525
-iii Evaluations by depth: {5: 93444, 7: 310248, 9: 39480, 11: 2160}
-iv  Average evaluation depth: 6.735127017760368
-v   Average recursion depth: 1.113414141868104
-vi  Average moves per game: 10.2
-n=5 b=4 s=4 t=1
-
-Player 1:  d=2 a=True
-Player 2:  d=2 a=True
-
-10 games
-
-Total wins for heuristic e1: 5 (50.0) (regular)
-Total wins for heuristic e2: 0 (0.0) (defensive)
-
-
-i   Average evaluation time: 0.43311438822150083
-ii  Total heuristic evaluations: 1548964
-iii Evaluations by depth: {2: 40, 3: 135, 4: 124, 5: 1277, 6: 154, 7: 33638, 8: 77, 9: 32682, 10: 47, 11: 31720, 12: 67, 13: 31017, 14: 35, 15: 26102, 16: 15, 17: 294, 18: 3, 19: 48, 20: 3}
-iv  Average evaluation depth: 8.21826798822771
-v   Average recursion depth: 1.0089464905924017
-vi  Average moves per game: 13.9
-n=8 b=5 s=5 t=5
-
-Player 1:  d=2 a=True
-Player 2:  d=2 a=True
-
-10 games
-
-Total wins for heuristic e1: 6 (60.0) (regular)
-Total wins for heuristic e2: 0 (0.0) (defensive)
-
-
-i   Average evaluation time: 0.8253662362811485
-ii  Total heuristic evaluations: 10072859
-iii Evaluations by depth: {2: 116, 3: 1062, 4: 718, 5: 3386, 6: 269, 7: 60157, 8: 311, 9: 57388, 10: 151, 11: 60090, 12: 270, 13: 61137, 14: 274, 15: 59937, 16: 262, 17: 61717, 18: 209, 19: 60152, 20: 199, 21: 55225, 22: 152, 23: 56551, 24: 179, 25: 55829, 26: 446, 27: 52518, 28: 421, 29: 49719, 30: 379, 31: 55144, 32: 347, 33: 39943, 34: 147, 35: 39158, 36: 404, 37: 45821, 38: 341, 39: 44329, 40: 41, 41: 38336, 42: 18, 43: 23398, 44: 16, 45: 22885, 46: 14, 47: 8014, 48: 11, 49: 90, 50: 48, 51: 400, 52: 25, 53: 33467, 54: 23, 55: 4387, 56: 8, 57: 105, 58: 5}
-iv  Average evaluation depth: 12.605392842322376
-v   Average recursion depth: 2.0295450409043396
-vi  Average moves per game: 23.166666666666668
-n=5 b=4 s=4 t=1
-
-Player 1:  d=2 a=True
-Player 2:  d=2 a=True
 
 20 games
 
 Total wins for heuristic e1: 4 (20.0) (regular)
-Total wins for heuristic e2: 0 (0.0) (defensive)
+Total wins for heuristic e2: 2 (10.0) (defensive)
 
 
-i   Average evaluation time: 0.41040915534968736
-ii  Total heuristic evaluations: 3031664
-iii Evaluations by depth: {2: 40, 3: 135, 4: 128, 5: 1265, 6: 156, 7: 32966, 8: 83, 9: 32975, 10: 62, 11: 31117, 12: 47, 13: 29791, 14: 45, 15: 27662, 16: 22, 17: 4363, 18: 14, 19: 701, 20: 4}
-iv  Average evaluation depth: 8.325750977510156
-v   Average recursion depth: 0.9748643951978841
-vi  Average moves per game: 14.166666666666666
-n=4 b=4 s=3 t=1
+i   Average evaluation time: 1.373528576405303
+ii  Total heuristic evaluations: 13605249
+iii Evaluations by depth: {6: 235216, 7: 235245, 8: 133668, 9: 44172, 10: 14004, 11: 936}
+iv  Average evaluation depth: 6.995325768050063
+v   Average recursion depth: 0.7208214852828692
+vi  Average moves per game: 10.45
 
-Player 1:  d=6 a=True
-Player 2:  d=6 a=True
-
-20 games
-
-Total wins for heuristic e1: 0 (0.0) (regular)
-Total wins for heuristic e2: 0 (0.0) (defensive)
-
-
-i   Average evaluation time: 0.48392614140151513
-ii  Total heuristic evaluations: 1852875
-iii Evaluations by depth: {3: 5, 4: 1, 5: 1212, 6: 34233, 7: 48681, 8: 5611, 9: 2700, 10: 2533, 11: 331}
-iv  Average evaluation depth: 6.797475369720397
-v   Average recursion depth: 0.8936820294998938
-vi  Average moves per game: 11.0
+----------New Game-----------
 n=5 b=4 s=4 t=5
 
 Player 1:  d=6 a=True
 Player 2:  d=6 a=True
-
-20 games
-
-Total wins for heuristic e1: 0 (0.0) (regular)
-Total wins for heuristic e2: 0 (0.0) (defensive)
-
-
-i   Average evaluation time: 0.6649755479300288
-ii  Total heuristic evaluations: 17508065
-iii Evaluations by depth: {2: 4, 3: 1, 4: 78, 5: 1744, 6: 146578, 7: 164914, 8: 148597, 9: 82713, 10: 145723, 11: 38375, 12: 76342, 13: 21836, 14: 12529, 15: 14487, 16: 11221, 17: 1296, 18: 5521, 19: 414, 20: 190}
-iv  Average evaluation depth: 8.541151320290897
-v   Average recursion depth: 1.281179039499926
-vi  Average moves per game: 15.5
-n=4 b=4 s=3 t=6
-
-Player 1:  d=5 a=False
-Player 2:  d=6 a=False
 
 20 games
 
@@ -197,33 +31,57 @@ Total wins for heuristic e1: 10 (50.0) (regular)
 Total wins for heuristic e2: 0 (0.0) (defensive)
 
 
-i   Average evaluation time: 0.8064121619696969
-ii  Total heuristic evaluations: 8572980
-iii Evaluations by depth: {5: 93444, 7: 310248, 9: 39480, 11: 2160}
-iv  Average evaluation depth: 6.7295585992581595
-v   Average recursion depth: 1.1367989696248748
-vi  Average moves per game: 10.0
-n=8 b=6 s=5 t=1
+i   Average evaluation time: 1.7251886956920608
+ii  Total heuristic evaluations: 22445385
+iii Evaluations by depth: {2: 12, 3: 12, 4: 564, 5: 4673, 6: 134232, 7: 160995, 8: 93473, 9: 161208, 10: 154651, 11: 98552, 12: 82915, 13: 112299, 14: 141736, 15: 28380, 16: 87466, 17: 7429, 18: 4652, 19: 714, 20: 587}
+iv  Average evaluation depth: 9.614126274000604
+v   Average recursion depth: 2.452446776843673
+vi  Average moves per game: 19.45
 
-Player 1:  d=2 a=True
-Player 2:  d=2 a=True
-
-20 games
-
-Total wins for heuristic e1: 15 (75.0) (regular)
-Total wins for heuristic e2: 5 (25.0) (defensive)
-
-
-i   Average evaluation time: 0.8749074234673299
-ii  Total heuristic evaluations: 1281986
-iii Evaluations by depth: {2: 114, 3: 1142, 4: 41, 5: 435, 6: 1, 7: 11470, 8: 1333, 9: 9365, 10: 1170, 11: 9991, 12: 1157, 13: 9762, 14: 1096, 15: 9629, 16: 951, 17: 9970, 18: 971, 19: 9861, 20: 956, 21: 9671, 22: 965, 23: 9631, 24: 726, 25: 9643, 26: 652, 27: 9421, 28: 497, 29: 9060, 30: 409, 31: 9351, 32: 370, 33: 9088, 34: 281, 35: 8647, 36: 203, 37: 7680, 38: 168, 39: 8392, 40: 127, 41: 8099, 42: 123, 43: 8068, 44: 98, 45: 7227, 46: 50, 47: 7057, 48: 30, 49: 3020, 50: 35, 51: 550, 52: 16, 53: 6536, 54: 12, 55: 315, 56: 8, 57: 105, 58: 4}
-iv  Average evaluation depth: 15.775853453910477
-v   Average recursion depth: 2.331474983363677
-vi  Average moves per game: 23.833333333333332
+----------New Game-----------
 n=8 b=5 s=5 t=5
 
 Player 1:  d=2 a=True
-Player 2:  d=2 a=True
+Player 2:  d=6 a=True
+
+20 games
+
+Total wins for heuristic e1: 3 (15.0) (regular)
+Total wins for heuristic e2: 0 (0.0) (defensive)
+
+
+i   Average evaluation time: 1.8357661174151776
+ii  Total heuristic evaluations: 19214036
+iii Evaluations by depth: {2: 116, 3: 1212, 4: 317, 5: 7518, 6: 736, 7: 55877, 8: 388, 9: 40790, 10: 218, 11: 46788, 12: 283, 13: 49625, 14: 298, 15: 46086, 16: 308, 17: 45475, 18: 247, 19: 50750, 20: 462, 21: 50197, 22: 521, 23: 53970, 24: 240, 25: 54748, 26: 175, 27: 52508, 28: 168, 29: 52907, 30: 117, 31: 52014, 32: 139, 33: 49040, 34: 104, 35: 47747, 36: 187, 37: 44397, 38: 167, 39: 45982, 40: 147, 41: 45957, 42: 92, 43: 40018, 44: 97, 45: 27504, 46: 156, 47: 13839, 48: 24, 49: 11135, 50: 20, 51: 5014, 52: 8, 53: 1652, 54: 6, 55: 794, 56: 4, 57: 296, 58: 2}
+iv  Average evaluation depth: 26.95445963674816
+v   Average recursion depth: 4.717940985746998
+vi  Average moves per game: 57.25
+
+
+----------New Game-----------
+n=8 b=6 s=5 t=1
+
+Player 1:  d=6 a=True
+Player 2:  d=6 a=True
+
+20 games
+
+Total wins for heuristic e1: 12 (60.0) (regular)
+Total wins for heuristic e2: 8 (40.0) (defensive)
+
+
+i   Average evaluation time: 0.5917531280136917
+ii  Total heuristic evaluations: 1460043
+iii Evaluations by depth: {2: 110, 3: 1098, 4: 1343, 5: 2396, 6: 6410, 7: 7744, 8: 6240, 9: 7180, 10: 6457, 11: 7301, 12: 5986, 13: 6858, 14: 6512, 15: 6589, 16: 6241, 17: 6892, 18: 6012, 19: 5692, 20: 4896, 21: 4834, 22: 3111, 23: 2837, 24: 9031, 25: 6970, 26: 5067, 27: 4415, 28: 7880, 29: 8315, 30: 7897, 31: 7477, 32: 7608, 33: 8154, 34: 7802, 35: 7660, 36: 8103, 37: 7519, 38: 7497, 39: 7355, 40: 7232, 41: 6249, 42: 7677, 43: 5665, 44: 5487, 45: 5541, 46: 1102, 47: 1332, 48: 2699, 49: 1154}
+iv  Average evaluation depth: 9.417230762446586
+v   Average recursion depth: 3.3092910768587323
+vi  Average moves per game: 10.35
+
+----------New Game-----------
+n=8 b=6 s=5 t=5
+
+Player 1:  d=6 a=True
+Player 2:  d=6 a=True
 
 20 games
 
@@ -231,43 +89,66 @@ Total wins for heuristic e1: 20 (100.0) (regular)
 Total wins for heuristic e2: 0 (0.0) (defensive)
 
 
-i   Average evaluation time: 1.205509725743548
-ii  Total heuristic evaluations: 15417339
-iii Evaluations by depth: {2: 116, 3: 1266, 4: 795, 5: 3204, 6: 329, 7: 45214, 8: 403, 9: 47182, 10: 250, 11: 47799, 12: 332, 13: 45906, 14: 262, 15: 45616, 16: 262, 17: 44874, 18: 153, 19: 43632, 20: 260, 21: 43544, 22: 249, 23: 43048, 24: 234, 25: 42851, 26: 142, 27: 43002, 28: 171, 29: 42616, 30: 159, 31: 42030, 32: 183, 33: 41702, 34: 143, 35: 41610, 36: 25, 37: 41062, 38: 23, 39: 39455, 40: 21, 41: 20847, 42: 128, 43: 16177, 44: 33, 45: 34602, 46: 49, 47: 3492, 48: 30, 49: 7510, 50: 35, 51: 7151, 52: 16, 53: 6536, 54: 12, 55: 315, 56: 8, 57: 105, 58: 4}
-iv  Average evaluation depth: 17.89015265977191
-v   Average recursion depth: 2.8352451728892625
-vi  Average moves per game: 28.675
-n=8 b=6 s=5 t=5
+i   Average evaluation time: 3.700378801444957
+ii  Total heuristic evaluations: 25922928
+iii Evaluations by depth: {2: 60, 3: 1087, 4: 8673, 5: 10574, 6: 39961, 7: 48254, 8: 42457, 9: 46244, 10: 41375, 11: 47312, 12: 41766, 13: 47253, 14: 47011, 15: 49232, 16: 46887, 17: 49242, 18: 46852, 19: 49046, 20: 47194, 21: 48349, 22: 46707, 23: 48955, 24: 46671, 25: 47615, 26: 45429, 27: 46234, 28: 44016, 29: 42579, 30: 43984, 31: 46162, 32: 41601, 33: 38427, 34: 37568, 35: 35720, 36: 32312, 37: 19202, 38: 13818, 39: 1118, 40: 836, 41: 25006, 42: 27495, 43: 7838, 44: 4890, 45: 420}
+iv  Average evaluation depth: 22.002976940351584
+v   Average recursion depth: 8.46904456071619
+vi  Average moves per game: 39.6
+
+----------New Game-----------
+n=4 b=4 s=3 t=1
 
 Player 1:  d=6 a=True
 Player 2:  d=6 a=True
 
 20 games
 
-Total wins for heuristic e1: 11 (55.0) (regular)
+Total wins for heuristic e1: 0 (0.0) (regular)
 Total wins for heuristic e2: 0 (0.0) (defensive)
 
 
-i   Average evaluation time: 1.687824743787666
-ii  Total heuristic evaluations: 26727548
-iii Evaluations by depth: {2: 109, 3: 981, 4: 1689, 5: 2771, 6: 41810, 7: 53335, 8: 40791, 9: 52110, 10: 40477, 11: 48846, 12: 44369, 13: 46353, 14: 40869, 15: 45425, 16: 44891, 17: 55237, 18: 44083, 19: 54309, 20: 45170, 21: 52975, 22: 44117, 23: 37736, 24: 35953, 25: 45374, 26: 38795, 27: 45432, 28: 38469, 29: 43197, 30: 38571, 31: 44141, 32: 39471, 33: 48518, 34: 41750, 35: 47799, 36: 40658, 37: 46350, 38: 37633, 39: 44092, 40: 11430, 41: 42311, 42: 21420, 43: 39248, 44: 12415, 45: 37406, 46: 10311, 47: 20981, 48: 2369, 49: 9863, 50: 1411, 51: 3665, 52: 693, 53: 1651, 54: 315, 55: 506, 56: 105, 57: 152, 58: 4}
-iv  Average evaluation depth: 17.110345782073892
-v   Average recursion depth: 3.7266635213204835
-vi  Average moves per game: 27.7625
+i   Average evaluation time: 0.13592165291666664
+ii  Total heuristic evaluations: 1494023
+iii Evaluations by depth: {2: 27, 3: 1, 4: 11, 5: 1659, 6: 33953, 7: 35233, 8: 5611, 9: 2700, 10: 2533, 11: 331}
+iv  Average evaluation depth: 6.887549206208878
+v   Average recursion depth: 0.6603059357775511
+vi  Average moves per game: 12.0
+
+----------New Game-----------
 n=8 b=5 s=5 t=1
 
 Player 1:  d=2 a=True
-Player 2:  d=2 a=True
+Player 2:  d=6 a=True
 
 20 games
 
 Total wins for heuristic e1: 10 (50.0) (regular)
-Total wins for heuristic e2: 5 (25.0) (defensive)
+Total wins for heuristic e2: 0 (0.0) (defensive)
 
 
-i   Average evaluation time: 0.20054206919703388
-ii  Total heuristic evaluations: 1439130
-iii Evaluations by depth: {2: 116, 3: 1218, 4: 42, 5: 444, 6: 1, 7: 12974, 8: 1120, 9: 10395, 10: 1069, 11: 10275, 12: 934, 13: 10432, 14: 1011, 15: 10315, 16: 1029, 17: 9816, 18: 1001, 19: 9933, 20: 1100, 21: 10001, 22: 791, 23: 9892, 24: 716, 25: 9695, 26: 635, 27: 9422, 28: 533, 29: 9196, 30: 438, 31: 9111, 32: 383, 33: 8958, 34: 109, 35: 8545, 36: 101, 37: 8945, 38: 53, 39: 8298, 40: 140, 41: 8129, 42: 114, 43: 8041, 44: 101, 45: 8008, 46: 49, 47: 7571, 48: 30, 49: 7510, 50: 35, 51: 7151, 52: 16, 53: 6536, 54: 12, 55: 315, 56: 8, 57: 105, 58: 4}
-iv  Average evaluation depth: 12.441191908494796
-v   Average recursion depth: 1.5128075147581128
-vi  Average moves per game: 17.85
+i   Average evaluation time: 0.24620938494635752
+ii  Total heuristic evaluations: 4112775
+iii Evaluations by depth: {2: 116, 3: 1021, 4: 672, 5: 3507, 6: 736, 7: 12605, 8: 313, 9: 11904, 10: 151, 11: 10504, 12: 239, 13: 9762, 14: 274, 15: 9396, 16: 262, 17: 9656, 18: 209, 19: 10819, 20: 160, 21: 10625, 22: 115, 23: 10803, 24: 144, 25: 10608, 26: 195, 27: 10056, 28: 159, 29: 10182, 30: 157, 31: 9853, 32: 119, 33: 9691, 34: 325, 35: 9077, 36: 391, 37: 8834, 38: 23, 39: 9100, 40: 21, 41: 8891, 42: 235, 43: 8242, 44: 178, 45: 7100, 46: 127, 47: 6347, 48: 89, 49: 6076, 50: 50, 51: 2281, 52: 24, 53: 1754, 54: 6, 55: 78, 56: 8, 57: 12, 58: 4}
+iv  Average evaluation depth: 14.478658786646594
+v   Average recursion depth: 2.432873410386085
+vi  Average moves per game: 28.266666666666666
+
+----------New Game-----------
+n=5 b=4 s=4 t=1
+
+Player 1:  d=2 a=True
+Player 2:  d=6 a=True
+
+20 games
+
+Total wins for heuristic e1: 10 (50.0) (regular)
+Total wins for heuristic e2: 0 (0.0) (defensive)
+
+
+i   Average evaluation time: 0.17665093697619047
+ii  Total heuristic evaluations: 2703182
+iii Evaluations by depth: {2: 40, 3: 84, 4: 119, 5: 6627, 6: 156, 7: 29259, 8: 198, 9: 27239, 10: 41, 11: 23609, 12: 57, 13: 24205, 14: 24, 15: 21128, 16: 37, 17: 6276, 18: 4, 19: 315, 20: 4}
+iv  Average evaluation depth: 8.974846307159293
+v   Average recursion depth: 0.9164916120328307
+vi  Average moves per game: 16.25
