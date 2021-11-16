@@ -47,10 +47,9 @@ class Game:
         self.pX = self.AI
         self.eX = self.E1
         self.eO = self.E2
-        self.b_pos = args[0]
         self.iSplayingSeries=False
 
-        if(askInputs):
+        if askInputs:
             self.n = int(input('Size of the board:'))
             self.b = int(input('Number of blocks (#):'))
             self.s = int(input('Winning Line-Up Size:'))
@@ -60,14 +59,15 @@ class Game:
             self.a = self.MINIMAX if bool(input('Use minimax (FALSE) or alphabeta (TRUE)?:')) else self.ALPHABETA
             self.pO = self.HUMAN if bool(input('Player 2 (O) is human (TRUE) or AI (FALSE)?:')) else self.AI
             self.pX = self.HUMAN if bool(input('Player 1 (X) is human (TRUE) or AI (FALSE)?:')) else self.AI
-
-        if askInputs:
             self.b_pos = [tuple()] * self.b
             for i, b in enumerate(self.b_pos):
                 print('Enter the coordinate for the block ',i)
                 px = int(input('enter the x coordinate: '))
                 py = int(input('enter the y coordinate: '))
                 self.b_pos[i] = (px,py) #can assume that input is valid
+        else:
+                self.b_pos = args[0]
+
         self.initialize_game()
         self.recommend = True
 
@@ -565,14 +565,18 @@ def get_random_blocs(n,b):
 def main():
     seed(42)
     games = []
-    # games.append(Game(False, 4, 4, 3, 6, 6, 5, False, False, [(0,0),(0,3),(3,0),(3,3)] ))
+    # Play AI vs AI
+    games.append(Game(False, 4, 4, 3, 6, 6, 5, False, False, [(0,0),(0,3),(3,0),(3,3)] ))
     games.append(Game(False, 4, 4, 3, 6, 6, 1, True, True, get_random_blocs(4,4)))
     games.append(Game(False, 5, 4, 4, 2, 6, 1, True, True, get_random_blocs(5,4)))
-    # games.append(Game(False, 5, 4, 4, 6, 6, 5, True, True, get_random_blocs(5,4)))
+    games.append(Game(False, 5, 4, 4, 6, 6, 5, True, True, get_random_blocs(5,4)))
     games.append(Game(False, 8, 5, 5, 2, 6, 1, True, True, get_random_blocs(8,5)))
-    # games.append(Game(False, 8, 5, 5, 2, 6, 5, True, True, get_random_blocs(8,5)))
-    # games.append(Game(False, 8, 6, 5, 6, 6, 1, True, True, get_random_blocs(8,6)))
-    # games.append(Game(False, 8, 6, 5, 6, 6, 5, True, True, get_random_blocs(8,6)))
+    games.append(Game(False, 8, 5, 5, 2, 6, 5, True, True, get_random_blocs(8,5)))
+    games.append(Game(False, 8, 6, 5, 6, 6, 1, True, True, get_random_blocs(8,6)))
+    games.append(Game(False, 8, 6, 5, 6, 6, 5, True, True, get_random_blocs(8,6)))
+
+    # Play manually instead
+    # games.append(Game(True))
 
     for game in games:
         print('Playing Game')
